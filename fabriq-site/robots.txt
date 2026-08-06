@@ -1,5 +1,0 @@
-# Replace www.example.com with your real domain before launch.
-User-agent: *
-Allow: /
-
-Sitemap: https://www.example.com/sitemap.xml
