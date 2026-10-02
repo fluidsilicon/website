@@ -1,0 +1,58 @@
+# Build, check and publish fluidsilicon.com to GitHub Pages.
+#
+# Every push to main: build the site from src/ and content.py, run the
+# pre-publish checks (links, people, and the disclosure guard when the
+# FS_GUARD_TERMS secret is set), then publish dist/site. A failed check
+# publishes nothing.
+#
+# Repository settings: Settings > Pages > Source = "GitHub Actions". The
+# first run also enables Pages itself (configure-pages with enablement),
+# so the setting only needs to be confirmed, not created.
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pdftotext (scans the technical brief)
+        run: sudo apt-get update -q && sudo apt-get install -y -q poppler-utils
+      - name: Build
+        run: python3 build.py
+      - name: Check
+        env:
+          FS_GUARD_TERMS: ${{ secrets.FS_GUARD_TERMS }}
+        run: python3 tools_check.py
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

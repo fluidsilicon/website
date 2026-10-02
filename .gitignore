@@ -1,0 +1,13 @@
+# built output: published by .github/workflows/pages.yml, never committed
+dist/
+out/
+
+# the disclosure list (see README: "What the site says, and what it keeps back")
+.guard-terms
+
+# local noise
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+node_modules/
