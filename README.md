@@ -12,7 +12,14 @@ Python 3.9 or later is all the build needs. To show the site to someone before i
 
 ## Publish
 
-**Option A, recommended: GitHub Actions.** Put this folder in the repository that serves fluidsilicon.com. In **Settings > Pages**, set the source to **GitHub Actions**. Every push to `main` then runs `.github/workflows/pages.yml`: build, check, publish `dist/site`. If the check finds a broken link or a disclosure term, nothing is published.
+**Option A, recommended: GitHub Actions.** This repository publishes fluidsilicon.com. Every push to `main` runs `.github/workflows/pages.yml`: build, check, publish `dist/site`. If the check finds a broken link or a disclosure term, nothing is published. One-time setup, by a repository admin:
+
+1. **Settings > Pages:** source **GitHub Actions**, custom domain `fluidsilicon.com`, **Enforce HTTPS**. With Actions the custom domain lives in this setting; the `CNAME` file in the build is ignored.
+2. **Plan:** Pages on a private repository needs GitHub Pro (Team or Enterprise for an organization). On a free account the repository has to be public.
+3. **DNS:** the apex `fluidsilicon.com` keeps GitHub's four A records (185.199.108.153 to 185.199.111.153); `www` is a CNAME to `fluidsilicon.github.io`.
+4. **Secret:** `FS_GUARD_TERMS`, so the disclosure guard runs on every publish (see "What the site says, and what it keeps back").
+
+A custom domain can be attached to only one Pages site at a time, so remove it from any other repository before adding it here.
 
 **Option B: publish the built files.** Run the build and copy the contents of `dist/site/` to the root of the branch Pages serves. `CNAME` and `.nojekyll` are already included.
 

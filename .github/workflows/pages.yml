@@ -5,9 +5,11 @@
 # FS_GUARD_TERMS secret is set), then publish dist/site. A failed check
 # publishes nothing.
 #
-# Repository settings: Settings > Pages > Source = "GitHub Actions". The
-# first run also enables Pages itself (configure-pages with enablement),
-# so the setting only needs to be confirmed, not created.
+# One-time repository setup (an admin, in the browser): Settings > Pages >
+# Source = "GitHub Actions", custom domain fluidsilicon.com, Enforce HTTPS.
+# Pages on a private repository needs a paid plan; see README "Publish".
+# Until Pages is enabled, the configure-pages step fails and nothing is
+# published.
 name: pages
 
 on:
@@ -41,8 +43,6 @@ jobs:
           FS_GUARD_TERMS: ${{ secrets.FS_GUARD_TERMS }}
         run: python3 tools_check.py
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist/site
