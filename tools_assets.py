@@ -62,7 +62,7 @@ html, body {{ margin: 0; }}
        background: #121212; background-image: radial-gradient(700px 420px at 82% 40%, rgba(240, 96, 36, .22), transparent 65%); font-family: "Red Hat Text", sans-serif; overflow: hidden; }}
 .left {{ display: grid; gap: 22px; align-content: center; }}
 .left svg {{ width: 260px; height: auto; }}
-h1 {{ margin: 0; font: 650 72px/1.02 "Red Hat Display", sans-serif; letter-spacing: -0.025em; color: #f4f2ed; }}
+h1 {{ margin: 0; font: 650 64px/1.04 "Red Hat Display", sans-serif; letter-spacing: -0.025em; color: #f4f2ed; }}
 .sub {{ margin: 0; font-size: 24px; line-height: 1.4; color: #c3bfb6; max-width: 26ch; }}
 .right {{ display: grid; place-items: center; }}
 .right svg {{ width: 470px; height: auto; filter: drop-shadow(0 24px 48px rgba(0, 0, 0, .6)); }}
@@ -70,8 +70,8 @@ h1 {{ margin: 0; font: 650 72px/1.02 "Red Hat Display", sans-serif; letter-spaci
 .bar {{ position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: linear-gradient(90deg, #f06024 0 34%, #a67c00 34% 67%, #6c602a 67%); }}
 </style></head><body><div class="og">
 <div class="left">{logo}
-<h1>See what every chip can really do.</h1>
-<p class="sub">Every logic element measured while the chip runs, in production, with no downtime. Starting with AMD and Altera FPGAs.</p></div>
+<h1>Catch timing failures before they happen.</h1>
+<p class="sub">Every logic element measured while the chip runs, so the one running out of margin is found before it fails. AMD and Altera FPGAs.</p></div>
 <div class="right">{chip}</div><div class="bar"></div></div></body></html>'''
 
 

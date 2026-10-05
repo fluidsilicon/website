@@ -375,9 +375,9 @@ def eeo():
 
 
 def about_blurb():
-    return ('<p>Fluid Silicon gives the people who run critical systems a clear view of every chip\'s health and capability. '
-            'The platform measures timing on every logic element of an FPGA while it runs, so operators can run each chip at its real limits '
-            'and know when a card will need attention. Hardware you can see is hardware you can trust.</p>')
+    return ('<p>Fluid Silicon helps the people who run critical systems catch timing failures before they happen. '
+            'The platform measures timing on every logic element of an FPGA while it runs, finds the elements running out of margin '
+            'and predicts when each chip will need attention.</p>')
 
 
 def cite(key):
@@ -550,6 +550,17 @@ HOME_METRICS = [
     ("0", "downtime while monitoring runs"),
 ]
 METRIC_NOTE = "*Fluid Silicon measurements. Varies with variation pattern, workload, vendor and device age."
+
+
+def problem_grid():
+    """The home page's problem cards: the production problem as the headline, the solution that answers it as the link."""
+    out = ['<div class="sol-grid">']
+    for sdef in C.SOLUTIONS:
+        t, d = sdef["problem"]
+        out.append(f'<a class="sol-card" href="/solutions/{sdef["slug"]}/">{icon_box(sdef["icon"])}<h3>{esc(t)}</h3><p>{esc(d)}</p>'
+                   f'<span class="go">{esc(sdef["name"])}</span></a>')
+    out.append('</div>')
+    return "".join(out)
 
 
 def sol_grid(current=None, icons=False, dark=False):
@@ -926,6 +937,7 @@ COMPONENTS = {
     "updated": lambda a: "September 2026",
     "metrics_home": lambda a: metrics(HOME_METRICS, METRIC_NOTE),
     "sol_grid": lambda a: sol_grid(current=a or None),
+    "problem_grid": lambda a: problem_grid(),
     "sol_icons": lambda a: sol_grid(current=a or None, icons=True),
     "ind_grid": lambda a: ind_grid(tiles=True),
     "ind_icons": lambda a: ind_grid(current=a or None, tiles=False),
@@ -1142,7 +1154,7 @@ def head_html(meta):
 <meta property="og:image" content="{SITE_URL}/assets/img/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Fluid Silicon: see what every chip can really do.">
+<meta property="og:image:alt" content="Fluid Silicon: catch timing failures before they happen.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/assets/img/mark.svg" type="image/svg+xml">

@@ -43,7 +43,7 @@ NEWS = [
 # ------------------------------------------------------------------ solutions (by topic)
 SOLUTIONS = [
     {
-        "slug": "power-performance", "name": "Power & Performance", "icon": "power",
+        "slug": "power-performance", "problem": ('Every chip runs at worst-case voltage', 'Voltage and clock are set for the slowest part that could have been made, so most chips burn power and leave speed unused. Set each one to the margin it measures.'), "name": "Power & Performance", "icon": "power",
         "short": "Voltage and frequency set by measurement, per chip.",
         "lead": "Timing margins are set once, for the slowest chip at the hottest corner, because that is the only chip a vendor can guarantee. Fluid Silicon measures the margin each of your chips has and converts the difference into lower power and higher clocks, with the margin you specify kept in place.",
         "impact": [("30–54%", "timing margin carried today for the worst-case corner*"),
@@ -103,7 +103,7 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "reliability-availability-serviceability", "name": "Reliability, Availability, Serviceability", "icon": "shield",
+        "slug": "reliability-availability-serviceability", "problem": ('Failures arrive without warning', 'A path that passed qualification slows with heat and age until it fails in service. A time-to-threshold per element puts the repair in a window you choose.'), "name": "Reliability, Availability, Serviceability", "icon": "shield",
         "short": "See failure coming, and fix it in a window you choose.",
         "lead": "A card that fails without warning takes capacity with it and sends errors downstream. Fluid Silicon watches the timing health of every logic element, predicts when each card will cross your threshold, and, only where an element is degrading, repairs it in a window you choose.",
         "impact": [("1 s", "to sweep every logic element while the design runs"),
@@ -162,7 +162,7 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "failure-prediction-diagnostics", "name": "Failure Prediction & Diagnostics", "icon": "search",
+        "slug": "failure-prediction-diagnostics", "problem": ('Errors no one can reproduce', 'Intermittent faults pass every bench test and end as no fault found. Measured margin per logic element gives each error an address on the chip.'), "name": "Failure Prediction & Diagnostics", "icon": "search",
         "short": "Give every error an address, a history and a forecast.",
         "lead": "When a card fails today, nobody can say which logic caused it. Fluid Silicon measures every element, so a fault has an address, a history and a forecast.",
         "impact": [("< 20 ps", "per-link measurement precision"),
@@ -219,7 +219,7 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "card-qualification", "name": "Card Qualification", "icon": "check",
+        "slug": "card-qualification", "problem": ('New boards of unknown margin', 'Boards with the same part number arrive with different timing margin, and the weak ones ship with the rest. Measure each one before it enters service.'), "name": "Card Qualification", "icon": "check",
         "short": "Know what each card can do before it enters service.",
         "lead": "Two cards with the same part number are not the same card. Fluid Silicon characterizes every LUT and carry block at speed before a card enters service: what it can sustain and where it is weak.",
         "impact": [("1 s", "to characterize every logic element of a card"),
@@ -276,7 +276,7 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "lifecycle-second-life", "name": "Lifecycle & Second Life", "icon": "clock",
+        "slug": "lifecycle-second-life", "problem": ('Boards retired on age, not condition', 'Healthy boards are pulled on a schedule while marginal ones stay in. Keep each board on its measured condition and retire the rest on evidence.'), "name": "Lifecycle & Second Life", "icon": "clock",
         "short": "Keep healthy cards longer. Retire the rest on evidence.",
         "lead": "Cards run six years and longer, past what vendors planned for. Fluid Silicon shows which cards can stay, when the rest will need attention, and what a card leaving service is worth.",
         "impact": [("6+ years", "cards now stay in production"),
@@ -333,7 +333,7 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "fleet-operations", "name": "Fleet Deployment & Operations", "icon": "rack",
+        "slug": "fleet-operations", "problem": ('No common measure across mixed hardware', 'Different vendors, nodes and board generations report health differently, if at all. One metric works across all of them.'), "name": "Fleet Deployment & Operations", "icon": "rack",
         "short": "One health metric across every vendor, node and board generation.",
         "lead": "Mixed vendors, mixed nodes, several board generations and strict change control. Fluid Silicon gives every card the same health metric, the same telemetry and the same rules for change.",
         "impact": [("2", "vendors on one platform: AMD and Altera"),
@@ -531,7 +531,7 @@ JOBS = [
 # ------------------------------------------------------------------ team (company page and home)
 TEAM = [
     {"slug": "nhlanhla-mavuso", "name": "Nhlanhla Mavuso", "role": "Co-Founder and CEO",
-     "bio": "Nhlanhla led the research behind Fluid Silicon at the University of Pennsylvania, where he graduated from the Vagelos Integrated Program in Energy Research (VIPER), run jointly by Penn's School of Arts & Sciences and School of Engineering and Applied Science. Trained to look at systems by what they waste, he saw the biggest waste in deployed hardware as uncertainty: capability held back because nobody could see what each chip could really do.",
+     "bio": "Nhlanhla led the research behind Fluid Silicon at the University of Pennsylvania, where he graduated from the Vagelos Integrated Program in Energy Research (VIPER), run jointly by Penn's School of Arts & Sciences and School of Engineering and Applied Science. Trained to look at systems by what they waste, he saw the biggest waste in deployed hardware as uncertainty: margin held back on every chip because no one could measure how much each one actually had.",
      "creds": ["BA Physics, Penn 2026", "BSE Computer Engineering, Penn 2026", "MSE Electrical Engineering, Penn 2026", "VIPER Class of 2026", "President's Sustainability Prize, 2026"],
      "links": [("linkedin", "https://www.linkedin.com/in/nmavuso/")]},
     {"slug": "andre-dehon", "name": "Dr. André DeHon", "role": "Co-Founder and Chief Scientific Advisor",

@@ -1,11 +1,11 @@
 <!--meta
-{"path": "/", "doc_title": "Fluid Silicon | FPGA health monitoring and timing measurement", "og_title": "Fluid Silicon: see what every chip can really do", "description": "FPGA health monitoring from Fluid Silicon: the timing of every logic element measured while the chip runs, so you see what each FPGA can sustain, when it will need attention and how much margin it carries. AMD and Altera, on your site."}
+{"path": "/", "doc_title": "Fluid Silicon | FPGA health monitoring and timing measurement", "og_title": "Fluid Silicon: catch FPGA timing failures before they happen", "description": "Fluid Silicon catches FPGA timing failures before they happen: the timing of every logic element measured while the chip runs, the elements running out of margin found, and when each will fail predicted. AMD and Altera, on your site."}
 -->
 <section class="hero on-dark" aria-labelledby="home-h1">
   <div class="wrap">
     <div class="hero-copy">
-      <h1 id="home-h1">See what every chip can really do.</h1>
-      <p class="lead">Fluid Silicon measures the timing of every logic element on a chip while it runs. That one measurement shows what each chip can sustain, when it will need attention and how much margin it is carrying. Starting with the FPGAs you already run.</p>
+      <h1 id="home-h1">Catch timing failures before they happen.</h1>
+      <p class="lead">Intermittent errors no one can reproduce. Boards that fail years early. Chips run at worst-case voltage because their real margin is unknown. Fluid Silicon measures the timing of every logic element while your design runs, and shows which one is running out of margin and how long it has left.</p>
       <div class="btn-row">
         <a class="btn btn--primary" href="/technology/">How it works {{arrow}}</a>
         <a class="btn btn--ghost" href="/assets/docs/fluid-silicon-technical-brief.pdf">Technical brief (PDF)</a>
@@ -15,6 +15,18 @@
     <div class="hero-visual">
       {{hero_stack:home}}
     </div>
+  </div>
+</section>
+
+<section class="sec sec--raised" aria-labelledby="home-problems">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker">Problems in the field</p>
+      <h2 id="home-problems">Timing problems no factory test catches.</h2>
+      <p>They share one cause: no one knows how much timing margin each chip has left, and it changes with heat and age. Monitoring is read-only; tuning and repair are steps you turn on.</p>
+    </div>
+    {{problem_grid}}
+    <p class="mt-28"><a class="arrow-link" href="/solutions/">Explore all solutions</a></p>
   </div>
 </section>
 
@@ -72,19 +84,7 @@
   </div>
 </section>
 
-<section class="sec sec--raised" aria-labelledby="home-sol">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="kicker">What it enables</p>
-      <h2 id="home-sol">One measurement. Six ways to use it.</h2>
-      <p>Every solution reads the same measurement. Monitoring and modeling are read-only; tuning and repair are separate steps you turn on.</p>
-    </div>
-    {{sol_grid}}
-    <p class="mt-28"><a class="arrow-link" href="/solutions/">Explore all solutions</a></p>
-  </div>
-</section>
-
-<section class="sec" aria-labelledby="home-ind">
+<section class="sec sec--raised" aria-labelledby="home-ind">
   <div class="wrap">
     <div class="sec-head">
       <p class="kicker">Where it applies</p>
@@ -106,7 +106,7 @@
     <div class="path">
       <div><span class="n">1</span><div><h3>Today: FPGAs, read-only</h3><p>Per-element measurement on AMD and Altera parts, with evaluations that start on a few of your boards.</p></div></div>
       <div><span class="n">2</span><div><h3>Next: the full loop on every chip</h3><p>Each chip monitored, modeled, tuned and, when needed, repaired on its own measurement, wherever it runs: on a bench, in a vehicle, in a cabinet or in a data center.</p></div></div>
-      <div><span class="n">3</span><div><h3>The world we're building</h3><p>Every team sees the true limits of every chip it runs. Hardware you can see is hardware you can trust, and hardware you can trust does more with less.</p></div></div>
+      <div><span class="n">3</span><div><h3>After that: beyond FPGAs</h3><p>The same per-element measurement for other chips that have to run for years, so no system fails because a part ran out of margin unnoticed.</p></div></div>
     </div>
   </div>
 </section>
