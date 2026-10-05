@@ -600,6 +600,8 @@ html:not(.js) .search { display: none; }
 .hero--art .wrap { position: relative; grid-template-columns: minmax(0, 1fr); }
 .hero--art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(18, 18, 18, 1) 0 30%, rgba(18, 18, 18, .85) 48%, rgba(18, 18, 18, .15) 70%, rgba(18, 18, 18, 0)); pointer-events: none; }
 .hero--art .wrap { z-index: 1; }
+@media (max-width: 900px) { .hero--art .hero-art { opacity: .45; } }
+@media (max-width: 640px) { .hero--art .hero-art { display: none; } }
 .hero-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 36px; max-width: 760px; }
 .hero-stats .v { font: 650 clamp(30px, 3.4vw, 44px)/1 var(--font-display); color: #fff; letter-spacing: -0.02em; }
 .hero-stats .k { font-size: var(--fs-0); color: var(--dark-ink-2); margin-top: 8px; line-height: 1.45; }

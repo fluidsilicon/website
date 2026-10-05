@@ -298,6 +298,129 @@ def _leds(p, x, y, z, n, dx, colors, r=1.6):
     return "".join(out)
 
 
+def _face(p, axis, at):
+    """Open a group whose 2D coordinates lie on one face: 'y' a front panel (x, z), 'x' a side (y, z), 'z' a top (x, y)."""
+    if axis == "y":
+        o, m = p(0, at, 0), ".866 .5 0 -1"
+    elif axis == "x":
+        o, m = p(at, 0, 0), "-.866 .5 0 -1"
+    else:
+        o, m = p(0, 0, at), ".866 .5 -.866 .5"
+    return f'<g transform="matrix({m} {o[0]:.1f} {o[1]:.1f})">'
+
+
+def _bench(p, uid):
+    """Test and measurement: a bench oscilloscope showing an eye diagram, probing an FPGA board under test."""
+    out = []
+    L, D, H, F = 196, 80, 128, 5                 # the instrument: width along x, depth along y, height, feet
+    Z1 = F + H
+    out.append(f'<defs><filter id="{uid}-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6"/></filter>'
+               f'<filter id="{uid}-bloom" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.6"/></filter></defs>')
+    out.append(_poly([p(-6, -D - 6, 0), p(L + 6, -D - 6, 0), p(L + 6, 8, 0), p(-6, 8, 0)], "#000", f' opacity=".45" filter="url(#{uid}-soft)"'))
+    for fx in (8, L - 22):
+        out.append(_box(p, fx, -14, 0, 14, 10, F, "#1c1b19", "#141312", "#181716"))
+    out.append(_box(p, 0, -D, F, L, D, H, "#45423e", "#262422", "#33302d"))
+    for a, b in ((p(0, 0, Z1), p(L, 0, Z1)), (p(L, 0, Z1), p(L, -D, Z1))):
+        out.append(f'<line x1="{a[0]:.1f}" y1="{a[1]:.1f}" x2="{b[0]:.1f}" y2="{b[1]:.1f}" stroke="#5d5a55" stroke-width="1.2" stroke-linecap="round"/>')
+    # vents: the side and the top
+    side = "".join(f"M{-D + 10 + c * 7} {F + 30 + r * 16}v10" for r in range(4) for c in range(9))
+    out.append(_face(p, "x", L + 0.1) + f'<path d="{side}" stroke="#1d1b19" stroke-width="2.4" stroke-linecap="round"/></g>')
+    top = "".join(f"M{40 + c * 12} {-D + 12}v22" for c in range(10))
+    out.append(_face(p, "z", Z1 + 0.1) + f'<path d="{top}" stroke="#34312e" stroke-width="2.4" stroke-linecap="round"/></g>')
+
+    # front panel, in panel coordinates: x across, z up
+    DX0, DX1, DZ0, DZ1 = 9, 136, F + 16, Z1 - 9          # display
+    GZ0, GZ1 = DZ0 + 15, DZ1 - 11                        # waveform area between the readouts
+    W, Hh = DX1 - DX0, GZ1 - GZ0
+    fp = [_face(p, "y", 0.2)]
+    fp.append(f'<rect x="{DX0 - 4}" y="{DZ0 - 4}" width="{W + 8}" height="{DZ1 - DZ0 + 8}" fill="#3d3a36"/>')
+    fp.append(f'<rect x="{DX0}" y="{DZ0}" width="{W}" height="{DZ1 - DZ0}" fill="#0c0c0c"/>')
+    fp.append(f'<rect x="{DX0}" y="{DZ1 - 9}" width="{W}" height="9" fill="#1b1a19"/><rect x="{DX0}" y="{DZ0}" width="{W}" height="13" fill="#1b1a19"/>')
+    chans = ("#f0c24a", "#f06024", "#4fae6b", "#5b8fd6")
+    fp.append("".join(f'<rect x="{DX0 + 4 + i * 14}" y="{DZ1 - 7}" width="11" height="5" fill="{c}" opacity=".85"/>' for i, c in enumerate(chans)))
+    fp.append("".join(f'<rect x="{DX0 + 4 + i * 31}" y="{DZ0 + 3}" width="27" height="7" fill="#2b2a28"/>' for i in range(4)))
+    grid = "".join(f"M{DX0 + W * i / 10:.1f} {GZ0}V{GZ1}" for i in range(11)) + "".join(f"M{DX0} {GZ0 + Hh * j / 8:.1f}H{DX1}" for j in range(9))
+    fp.append(f'<path d="{grid}" stroke="#2c2b29" stroke-width=".8" stroke-dasharray="1.5 2.5"/>')
+    # the eye: eight bit patterns across two unit intervals, each repeated with a little jitter and noise
+    lo, hi, w = GZ0 + 0.2 * Hh, GZ0 + 0.8 * Hh, 0.12 * W
+    X = lambda u: DX0 + u * W
+    pats, reps = [], []
+    rng = random.Random(5)
+    for k in range(8):
+        b = ((k >> 2) & 1, (k >> 1) & 1, k & 1)
+        lv = [float(b[0])]
+        for i in (1, 2):
+            s = 0.035 if b[i] != b[i - 1] else 0.0      # just after a transition the level settles short of the rail
+            lv.append(b[i] - s if b[i] else s)
+        z = [lo + (hi - lo) * v for v in lv]
+        d = f"M{X(-0.05):.1f} {z[0]:.1f}"
+        for c, za, zb in ((0.25, z[0], z[1]), (0.75, z[1], z[2])):
+            d += f"H{X(c) - w:.1f}C{X(c) - 0.2 * w:.1f} {za:.1f} {X(c) + 0.2 * w:.1f} {zb:.1f} {X(c) + w:.1f} {zb:.1f}"
+        d += f"H{X(1.05):.1f}"
+        pats.append(f'<path id="{uid}-e{k}" d="{d}" fill="none"/>')
+        for j in range(6):
+            reps.append(f'<use href="#{uid}-e{k}" x="{rng.gauss(0, 0.016) * W:.1f}" y="{rng.gauss(0, 0.011) * Hh:.1f}"/>')
+    fp.append(f'<defs>{"".join(pats)}<g id="{uid}-eye">{"".join(reps)}</g>'
+              f'<clipPath id="{uid}-scr"><rect x="{DX0}" y="{GZ0 - 2}" width="{W}" height="{Hh + 4}"/></clipPath></defs>')
+    core = "".join(f'<use href="#{uid}-e{k}"/>' for k in range(8))
+    fp.append(f'<g clip-path="url(#{uid}-scr)">'
+              f'<use href="#{uid}-eye" stroke="#f06024" stroke-width="2" opacity=".4" filter="url(#{uid}-bloom)"/>'
+              f'<use href="#{uid}-eye" stroke="#f0b64a" stroke-width=".8" stroke-opacity=".4"/>'
+              f'<g stroke="#ffe6a3" stroke-width=".7" stroke-opacity=".8">{core}</g></g>')
+    mask = [(0.39, 0.5), (0.45, 0.39), (0.55, 0.39), (0.61, 0.5), (0.55, 0.61), (0.45, 0.61)]
+    fp.append('<polygon points="' + " ".join(f"{X(u):.1f},{GZ0 + v * Hh:.1f}" for u, v in mask) + '" fill="#5b8fd6" fill-opacity=".18" stroke="#7fa9e6" stroke-width=".9"/>')
+    # controls to the right of the display: soft keys, knobs, channel keys, inputs
+    CX0 = DX1 + 12
+    fp.append("".join(f'<rect x="{CX0 + i * 12}" y="{Z1 - 16}" width="8" height="5" fill="#5d5a55"/>' for i in range(4)))
+    def knob(x, z, r, cap):
+        # the cap stands proud of the panel: d units toward the viewer is (-d, -d) in panel coordinates
+        return (f'<circle cx="{x}" cy="{z}" r="{r + 1.2}" fill="#141312"/>'
+                + "".join(f'<circle cx="{x - d}" cy="{z - d}" r="{r}" fill="#2d2b28"/>' for d in (1.5, 3))
+                + f'<circle cx="{x - 4}" cy="{z - 4}" r="{r * 0.88:.1f}" fill="{cap}"/>'
+                + f'<path d="M{x - 4} {z - 4}l{r * 0.6:.1f} {r * 0.6:.1f}" stroke="#d9d4c8" stroke-width="1.2" stroke-linecap="round"/>')
+    fp.append(knob(CX0 + 11, Z1 - 36, 9, "#77736d") + knob(CX0 + 37, Z1 - 36, 9, "#77736d"))
+    for kx, kz in ((CX0 + 6, Z1 - 62), (CX0 + 22, Z1 - 62), (CX0 + 38, Z1 - 62), (CX0 + 6, Z1 - 80)):
+        fp.append(knob(kx, kz, 4.6, "#6a6661"))
+    fp.append("".join(f'<rect x="{CX0 + 18 + i * 8}" y="{Z1 - 84}" width="6" height="7" fill="{c}" opacity=".9"/>' for i, c in enumerate(chans)))
+    bnc = [(CX0 + 4 + i * 12.5, F + 13) for i in range(4)]
+    fp.append("".join(f'<circle cx="{x}" cy="{z}" r="5.2" fill="{c}" opacity=".9"/><circle cx="{x}" cy="{z}" r="3.9" fill="#c9ccd1"/><circle cx="{x}" cy="{z}" r="1.7" fill="#1a1a1a"/>'
+                      for (x, z), c in zip(bnc, chans)))
+    fp.append('</g>')
+    out.extend(fp)
+
+    # the board under test, on the bench in front of the instrument
+    BX, BY, BZ, BL, BW = 70, 96, 7, 170, 104
+    for sx, sy in ((6, 6), (BL - 10, 6), (6, BW - 10), (BL - 10, BW - 10)):
+        out.append(_box(p, BX + sx, BY + sy, 0, 4, 4, BZ, "#5d5a55", "#3a3835", "#4a4743"))
+    out.append(_box(p, BX, BY, BZ, BL, BW, 3, "#1f3a30", "#101c16", "#142419"))
+    T = BZ + 3
+    rng = random.Random(9)
+    tr = "".join(f"M{BX + rng.uniform(10, BL - 70):.0f} {BY + rng.uniform(8, BW - 8):.0f}h{rng.uniform(25, 60):.0f}" for _ in range(10))
+    out.append(_face(p, "z", T + 0.1) + f'<path d="{tr}" stroke="#2d5a47" stroke-width="1" opacity=".7"/></g>')
+    fx0, fy0 = BX + 64, BY + 30
+    out.append(_box(p, fx0, fy0, T, 46, 46, 2, "#2b3a2f", "#18221b", "#1f2b22"))
+    out.append(_box(p, fx0 + 6, fy0 + 6, T + 2, 34, 34, 4, "#5a5753", "#2f2d2b", "#403d3a"))
+    for k in range(5):
+        out.append(_box(p, BX + 124 + (k % 2) * 14, BY + 14 + k * 16, T, 9, 9, 4, "#2b2b2b", "#191919", "#222"))
+    for k in range(4):
+        out.append(_box(p, BX + 20 + k * 11, BY + 78, T, 7, 12, 5, "#4b4f55", "#33363b", "#3e4247"))
+    # two cables: out of the inputs, sagging onto the bench, into connectors on the board's back edge
+    for i in range(2):
+        bx, bz = bnc[i]
+        sx, sy, sz = bx - 3.5 + 2 * i, BY - 2, T + 3
+        out.append(_box(p, sx - 3.5, sy - 4, T, 7, 8, 6, "#d4ab3a", "#8f6f1c", "#b8912a"))
+        a, c1, c2, e = p(bx, 9.2, bz), p(bx, 34, bz - 22), p(sx, sy - 36, -6), p(sx, sy - 7, sz)
+        d = f"M{a[0]:.1f} {a[1]:.1f}C{c1[0]:.1f} {c1[1]:.1f} {c2[0]:.1f} {c2[1]:.1f} {e[0]:.1f} {e[1]:.1f}"
+        out.append(f'<path d="{d}" fill="none" stroke="#0e0e0e" stroke-width="4.8" stroke-linecap="round"/>'
+                   f'<path d="{d}" fill="none" stroke="#3d3a37" stroke-width="3" stroke-linecap="round"/>')
+        for (y0, y1, col, sw) in ((0.7, 3.2, "#b9bcc1", 5.6), (3.2, 9.7, "#2a2826", 5)):
+            q0, q1 = p(bx, y0, bz), p(bx, y1, bz)
+            out.append(f'<line x1="{q0[0]:.1f}" y1="{q0[1]:.1f}" x2="{q1[0]:.1f}" y2="{q1[1]:.1f}" stroke="{col}" stroke-width="{sw}" stroke-linecap="round"/>')
+        q0, q1 = p(sx, sy - 8, sz), p(sx, sy - 3, sz)
+        out.append(f'<line x1="{q0[0]:.1f}" y1="{q0[1]:.1f}" x2="{q1[0]:.1f}" y2="{q1[1]:.1f}" stroke="#2a2826" stroke-width="5" stroke-linecap="round"/>')
+    return "".join(out)
+
+
 def industry_art(kind, uid):
     """Six stylized scenes in the brand palette, drawn isometrically. Static, no text."""
     p = lambda a, b, c: _iso(a, b, c)
@@ -415,33 +538,9 @@ def industry_art(kind, uid):
         parts.append(_leds(p, 50.2, 8, 40, 3, 10, ["#1f8f3f", "#f0c24a", "#1f8f3f"]))
         parts.append('</g>')
     elif kind == "bench":
-        parts.append(G(330, 180))
-        parts.append(_floor(p, -120, 320, -80, 200, step=50, stroke="#2a2825"))
-        # oscilloscope
-        parts.append(_box(p, 120, -40, 0, 150, 110, 90, "#d9d4c8", "#8f8a7e", "#b9b3a5"))
-        s0, s1, s2, s3 = p(270.1, -30, 80), p(270.1, 60, 80), p(270.1, 60, 20), p(270.1, -30, 20)
-        parts.append(f'<polygon points="{s0[0]:.1f},{s0[1]:.1f} {s1[0]:.1f},{s1[1]:.1f} {s2[0]:.1f},{s2[1]:.1f} {s3[0]:.1f},{s3[1]:.1f}" fill="#111"/>')
-        # a trace on the screen
-        pts = []
-        for i in range(31):
-            t = i / 30
-            yv = -30 + 90 * t
-            zv = 50 + 22 * math.sin(t * 12.6) * (1 if int(t * 4) % 2 == 0 else 0.35)
-            q = p(270.3, yv, zv)
-            pts.append(f"{q[0]:.1f},{q[1]:.1f}")
-        parts.append(f'<polyline points="{" ".join(pts)}" fill="none" stroke="#f0c24a" stroke-width="2"/>')
-        for k in range(4):
-            parts.append(_leds(p, 270.2, -20 + k * 22, 10, 1, 0, ["#8f8a7e"], r=3))
-        # board under test
-        parts.append(_box(p, -60, 20, 0, 150, 90, 4, "#1f3a30", "#101c16", "#142419"))
-        parts.append(_box(p, -10, 40, 4, 44, 44, 8, "#2a2a2a", "#1a1a1a", "#222"))
-        for i in range(5):
-            for j in range(5):
-                c = p(-4 + i * 8, 46 + j * 8, 12.2)
-                parts.append(f'<circle cx="{c[0]:.1f}" cy="{c[1]:.1f}" r="1.3" fill="#f0c24a" opacity=".8"/>')
-        # probe
-        a, b = p(40, 60, 14), p(150, -20, 60)
-        parts.append(f'<path d="M{a[0]:.1f} {a[1]:.1f} C {a[0] + 40:.1f} {a[1] - 60:.1f}, {b[0] - 40:.1f} {b[1] + 30:.1f}, {b[0]:.1f} {b[1]:.1f}" fill="none" stroke="#f06024" stroke-width="2"/>')
+        parts.append(G(262, 182))
+        parts.append(_floor(p, -260, 420, -200, 260, step=50, stroke="#2a2825"))
+        parts.append(_bench(p, uid))
         parts.append('</g>')
     else:  # factory: a conveyor of cards passing a scanner
         parts.append(G(320, 170))
