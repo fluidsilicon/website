@@ -532,11 +532,11 @@ JOBS = [
 # ------------------------------------------------------------------ team (company page and home)
 TEAM = [
     {"slug": "nhlanhla-mavuso", "name": "Nhlanhla Mavuso", "role": "Co-Founder and CEO",
-     "bio": "Nhlanhla led the research behind Fluid Silicon at the University of Pennsylvania, where he graduated from the Vagelos Integrated Program in Energy Research (VIPER), run jointly by Penn's School of Arts & Sciences and School of Engineering and Applied Science. Trained to look at systems by what they waste, he saw the biggest waste in deployed hardware as uncertainty: margin held back on every chip because no one could measure how much each one actually had.",
+     "bio": "Nhlanhla developed the approach behind Fluid Silicon through master's research at the University of Pennsylvania on online health monitoring and runtime repair for commercial FPGAs.",
      "creds": ["BA Physics, Penn 2026", "BSE Computer Engineering, Penn 2026", "MSE Electrical Engineering, Penn 2026", "VIPER Class of 2026", "President's Sustainability Prize, 2026"],
      "links": [("linkedin", "https://www.linkedin.com/in/nmavuso/")]},
     {"slug": "andre-dehon", "name": "Dr. André DeHon", "role": "Co-Founder and Chief Scientific Advisor",
-     "bio": "André brings decades of reconfigurable-computing research, at Berkeley, Caltech and, since 2006, the University of Pennsylvania, where he is the Oliver C. Boileau Jr. and Nan Eleze Boileau Professor of Electrical Engineering. His work on FPGA architecture and interconnect through Penn's Implementation of Computation Lab shaped the technical foundation behind Fluid Silicon's approach.",
+     "bio": "André has worked in reconfigurable computing for decades, at Berkeley, Caltech and, since 2006, the University of Pennsylvania, where he is the Oliver C. Boileau Jr. and Nan Eleze Boileau Professor of Electrical Engineering. His research on FPGA architecture and interconnect underpins Fluid Silicon's approach.",
      "creds": ["SB, SM, PhD, MIT", "ACM Fellow", "IEEE Fellow", "NAI Fellow", "10 papers in the TCFPGA Hall of Fame", "Chair, ACM SIGDA TC on FPGAs"],
      "links": [("scholar", "https://scholar.google.com/citations?user=nintPk8AAAAJ"), ("penn", "https://directory.engineering.upenn.edu/andre-dehon/")]},
 ]
