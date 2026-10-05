@@ -43,8 +43,8 @@ NEWS = [
 # ------------------------------------------------------------------ solutions (by topic)
 SOLUTIONS = [
     {
-        "slug": "power-performance", "problem": ('Every chip runs at worst-case voltage', 'Voltage and clock are set for the slowest part that could have been made, so most chips burn power and leave speed unused. Set each one to the margin it measures.'), "name": "Power & Performance", "icon": "power",
-        "short": "Voltage and frequency set by measurement, per chip.",
+        "slug": "power-performance", "problem": ('Every device runs at full guardband', 'Vccint and clock are set for the slowest silicon at the worst-case corner, so most devices burn power and leave Fmax on the table. Set each device to the margin it actually has.'), "name": "Power & Performance", "icon": "power",
+        "short": "Vccint and Fmax set per device from measured slack.",
         "lead": "Timing margins are set once, for the slowest chip at the hottest corner, because that is the only chip a vendor can guarantee. Fluid Silicon measures the margin each of your chips has and converts the difference into lower power and higher clocks, with the margin you specify kept in place.",
         "impact": [("30–54%", "timing margin carried today for the worst-case corner*"),
                    ("< 20 ps", "per-link precision; the margin you keep covers measurement error plus drift"),
@@ -103,8 +103,8 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "reliability-availability-serviceability", "problem": ('Failures arrive without warning', 'A path that passed qualification slows with heat and age until it fails in service. A time-to-threshold per element puts the repair in a window you choose.'), "name": "Reliability, Availability, Serviceability", "icon": "shield",
-        "short": "See failure coming, and fix it in a window you choose.",
+        "slug": "reliability-availability-serviceability", "problem": ('Paths fail in service without warning', 'A path that closed timing at sign-off slows with temperature and aging until it violates setup in the field. A time-to-threshold per element schedules the fix before it fails.'), "name": "Reliability, Availability, Serviceability", "icon": "shield",
+        "short": "Predict timing failures and fix them in a window you choose.",
         "lead": "A card that fails without warning takes capacity with it and sends errors downstream. Fluid Silicon watches the timing health of every logic element, predicts when each card will cross your threshold, and, only where an element is degrading, repairs it in a window you choose.",
         "impact": [("1 s", "to sweep every logic element while the design runs"),
                    ("< 1%", "of LUTs, and under 5% of flip-flops, on a production shell"),
@@ -162,7 +162,7 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "failure-prediction-diagnostics", "problem": ('Errors no one can reproduce', 'Intermittent faults pass every bench test and end as no fault found. Measured margin per logic element gives each error an address on the chip.'), "name": "Failure Prediction & Diagnostics", "icon": "search",
+        "slug": "failure-prediction-diagnostics", "problem": ('Intermittent errors that never reproduce', 'Errors that disappear on the bench close as no fault found. Measured slack per LUT and carry chain gives every error a location on the die.'), "name": "Failure Prediction & Diagnostics", "icon": "search",
         "short": "Give every error an address, a history and a forecast.",
         "lead": "When a card fails today, nobody can say which logic caused it. Fluid Silicon measures every element, so a fault has an address, a history and a forecast.",
         "impact": [("< 20 ps", "per-link measurement precision"),
@@ -219,8 +219,8 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "card-qualification", "problem": ('New boards of unknown margin', 'Boards with the same part number arrive with different timing margin, and the weak ones ship with the rest. Measure each one before it enters service.'), "name": "Card Qualification", "icon": "check",
-        "short": "Know what each card can do before it enters service.",
+        "slug": "card-qualification", "problem": ('Incoming boards of unknown margin', 'Same part number, same speed grade, different silicon. Measure every board at incoming inspection and know which ones sit near their timing limit.'), "name": "Card Qualification", "icon": "check",
+        "short": "Measure every board's margin at incoming inspection.",
         "lead": "Two cards with the same part number are not the same card. Fluid Silicon characterizes every LUT and carry block at speed before a card enters service: what it can sustain and where it is weak.",
         "impact": [("1 s", "to characterize every logic element of a card"),
                    ("> 20%", "random variation at 16, 14 and 7 nm, on top of systematic variation across the die"),
@@ -276,8 +276,8 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "lifecycle-second-life", "problem": ('Boards retired on age, not condition', 'Healthy boards are pulled on a schedule while marginal ones stay in. Keep each board on its measured condition and retire the rest on evidence.'), "name": "Lifecycle & Second Life", "icon": "clock",
-        "short": "Keep healthy cards longer. Retire the rest on evidence.",
+        "slug": "lifecycle-second-life", "problem": ('Boards retired on age, not condition', 'Healthy boards come out on a schedule while marginal ones stay in. Keep each board in service on its measured slack and retire the rest on evidence.'), "name": "Lifecycle & Second Life", "icon": "clock",
+        "short": "Keep healthy boards in service. Retire the rest on evidence.",
         "lead": "Cards run six years and longer, past what vendors planned for. Fluid Silicon shows which cards can stay, when the rest will need attention, and what a card leaving service is worth.",
         "impact": [("6+ years", "cards now stay in production"),
                    ("5", "board generations one operator keeps in deployment at once (Rydberg et al., FPGA 2026)"),
@@ -333,7 +333,7 @@ SOLUTIONS = [
         ],
     },
     {
-        "slug": "fleet-operations", "problem": ('No common measure across mixed hardware', 'Different vendors, nodes and board generations report health differently, if at all. One metric works across all of them.'), "name": "Fleet Deployment & Operations", "icon": "rack",
+        "slug": "fleet-operations", "problem": ('No common health metric across platforms', 'AMD and Altera devices across several nodes and board generations report health differently, if at all. One metric covers all of them: measured slack as a share of the clock period.'), "name": "Fleet Deployment & Operations", "icon": "rack",
         "short": "One health metric across every vendor, node and board generation.",
         "lead": "Mixed vendors, mixed nodes, several board generations and strict change control. Fluid Silicon gives every card the same health metric, the same telemetry and the same rules for change.",
         "impact": [("2", "vendors on one platform: AMD and Altera"),
@@ -545,9 +545,9 @@ PRIZE_QUOTE = ("Fluid Silicon's adaptive approach to chip performance exemplifie
 
 # ------------------------------------------------------------------ why now (home page; figures from the margin and aging posts)
 WHYNOW = [
-    ("> 20%", "Variation is now a first-order constraint", "At 16, 14 and 7 nm, random variation alone exceeds 20%, on top of systematic variation across the die. Two chips with the same part number are less alike with every node.", "/blog/the-fpga-margin-problem/"),
-    ("6+ years", "Chips outlive their timing models", "Boards stay in service for six years and more, and a chip in a hot enclosure ages faster than the same part in a cool one. The timing model is set once; the silicon keeps changing.", "/blog/aging-is-measurable/"),
-    ("Per chip", "A chip can now report its own margin", "FPGAs can be reprogrammed after they ship, so a health layer can be added to chips already in service, with no new silicon. Each chip's margin can be measured instead of assumed from the worst one.", "/technology/"),
+    ("> 20%", "Variation is a first-order constraint", "At 16, 14 and 7 nm, random variation alone exceeds 20%, on top of systematic variation across the die. Two devices with the same part number and speed grade are less alike with every node.", "/blog/the-fpga-margin-problem/"),
+    ("6+ years", "Devices outlive their timing models", "Boards stay in service for six years and more, and a device in a hot enclosure ages faster than the same part in a cool one. Sign-off happens once; the silicon keeps changing.", "/blog/aging-is-measurable/"),
+    ("Per device", "In-system measurement is now practical", "FPGAs are reprogrammable after they ship, so a health layer can be added to devices already in service, with no new silicon. Each device's margin is measured instead of assumed from the slowest one.", "/technology/"),
 ]
 
 # ------------------------------------------------------------------ culture (careers page)

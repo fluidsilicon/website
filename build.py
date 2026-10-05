@@ -185,8 +185,8 @@ _CTA_N = 0
 _CAP_N = 0
 
 
-def cta_band(title="See per-element timing on a supported device.",
-             text="A 30-minute session: live measurements on a supported device, and what an evaluation on your cards involves.",
+def cta_band(title="Measure a device at speed, live.",
+             text="A 30-minute session: in-system slack measurements on a supported AMD or Altera device, and what an evaluation on your boards involves.",
              brief=True):
     b = ('<a class="btn btn--ghost" href="/assets/docs/fluid-silicon-technical-brief.pdf">Technical brief (PDF)</a>' if brief else "")
     global _CTA_N
@@ -280,18 +280,18 @@ def mock(kind, light=False):
         hm = slack_map("devmap")
         sp = S.spark(S.series(11, 30, 14.6, -0.21, 0.18), 300, 56)
         main = (f'<div class="mock-main"><div class="mock-head"><strong>Chip B2-04 · XCVU9P</strong><span>AMD Virtex UltraScale+ · 16 nm · measured 2 min ago</span></div>'
-                f'<div class="mock-tiles"><div><small>Median slack</small><b>33.7%</b></div><div><small>Weakest element</small><b class="red">8.2%</b></div><div><small>Time to threshold</small><b class="red">1.4 yrs</b></div><div><small>Clock</small><b>250 MHz</b></div></div>'
-                f'<div class="mock-two"><div class="mock-panel"><div class="ph"><strong>Weakest element</strong><span>X84Y212 · C6LUT</span></div>{sp}</div>'
+                f'<div class="mock-tiles"><div><small>Median slack</small><b>33.7%</b></div><div><small>Worst slack</small><b class="red">8.2%</b></div><div><small>Time to threshold</small><b class="red">1.4 yrs</b></div><div><small>Clock</small><b>250 MHz</b></div></div>'
+                f'<div class="mock-two"><div class="mock-panel"><div class="ph"><strong>Worst-slack element</strong><span>X84Y212 · C6LUT</span></div>{sp}</div>'
                 f'<div class="mock-panel"><div class="ph"><strong>Slack across the chip</strong><span>lowest per region</span></div>{hm}</div></div>'
-                f'<div class="mock-panel mock-table-wrap"><div class="ph"><strong>Weakest elements</strong><span>the three lowest</span></div>'
+                f'<div class="mock-panel mock-table-wrap"><div class="ph"><strong>Lowest-slack elements</strong><span>the three lowest</span></div>'
                 f'<table class="mock-table"><thead><tr><th>Site</th><th>Element</th><th>Slack</th><th>Time to threshold</th><th>Status</th></tr></thead><tbody>'
                 f'<tr><td>X84Y212</td><td>C6LUT</td><td>8.2%</td><td>1.4 yrs</td><td><span class="st st-act">Action</span></td></tr>'
                 f'<tr><td>X85Y212</td><td>Carry</td><td>9.6%</td><td>2.2 yrs</td><td><span class="st st-watch">Watch</span></td></tr>'
                 f'<tr><td>X40Y96</td><td>B5LUT</td><td>11.9%</td><td>2.8 yrs</td><td><span class="st st-watch">Watch</span></td></tr>'
                 f'</tbody></table></div></div>')
         body = f'<div class="mock-body">{_mock_nav("Chip", DEVICE_NAV)}{main}</div>'
-        label = ("Chip screen for one device: median slack 33.7%, weakest element 8.2% at site X84Y212, time to threshold 1.4 years, clock 250 MHz, "
-                 "with a slack map across the chip, the weakest element's history and a table of its three weakest elements.")
+        label = ("Device screen: median slack 33.7%, worst slack 8.2% at site X84Y212, time to threshold 1.4 years, clock 250 MHz, "
+                 "with a slack map across the die, the worst-slack element's history and a table of the three lowest-slack elements.")
     elif kind == "fleet":
         sp = S.spark(S.series(5, 30, 37.2, 0.04, 0.35), 300, 64)
         br = S.bars([2, 3, 6, 11, 19, 31, 46, 58, 64, 52, 38, 21, 9, 4], 300, 64, low=2)
@@ -375,9 +375,8 @@ def eeo():
 
 
 def about_blurb():
-    return ('<p>Fluid Silicon helps the people who run critical systems catch timing failures before they happen. '
-            'The platform measures timing on every logic element of an FPGA while it runs, finds the elements running out of margin '
-            'and predicts when each chip will need attention.</p>')
+    return ('<p>Fluid Silicon builds in-system timing measurement for FPGAs. Its health layer measures setup slack on every LUT and carry chain '
+            'at operating frequency while the design runs, flags the paths losing margin and predicts when each device will need attention.</p>')
 
 
 def cite(key):
@@ -451,8 +450,8 @@ def hero_stack(uid="hero"):
     # (1200 to 1600 px wide, where the overlay is drawn) and the overlay is hidden below that
     link = ('<svg class="link" viewBox="0 0 700 540" preserveAspectRatio="none" aria-hidden="true">'
             '<path d="M282 303 C 370 262, 520 268, 606 307"/><circle cx="282" cy="303" r="4.5"/><circle cx="606" cy="307" r="3"/></svg>')
-    tags = ('<div class="tag tag--chip"><span class="dot"></span>Measured on the chip<br><small>every logic element, at speed</small></div>'
-            '<div class="tag tag--device"><span class="dot dot--gold"></span>Known for this chip<br><small>example: weakest element 8.2%, at X84Y212</small></div>')
+    tags = ('<div class="tag tag--chip"><span class="dot"></span>Measured in-system<br><small>every LUT and carry chain, at speed</small></div>'
+            '<div class="tag tag--device"><span class="dot dot--gold"></span>Per-device result<br><small>example: worst slack 8.2%, at X84Y212</small></div>')
     return (f'<figure class="figure hero-figure"><div class="hero-stack">{mock("device")}<div class="hero-chip">{fabric_svg(uid + "-fab")}</div>{link}{tags}</div>'
             f'<figcaption class="mock-caption">Illustrative screen with example data.</figcaption></figure>')
 
@@ -1154,7 +1153,7 @@ def head_html(meta):
 <meta property="og:image" content="{SITE_URL}/assets/img/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Fluid Silicon: catch timing failures before they happen.">
+<meta property="og:image:alt" content="Fluid Silicon: measure every device at speed.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/assets/img/mark.svg" type="image/svg+xml">

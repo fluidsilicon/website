@@ -70,8 +70,8 @@ h1 {{ margin: 0; font: 650 64px/1.04 "Red Hat Display", sans-serif; letter-spaci
 .bar {{ position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: linear-gradient(90deg, #f06024 0 34%, #a67c00 34% 67%, #6c602a 67%); }}
 </style></head><body><div class="og">
 <div class="left">{logo}
-<h1>Catch timing failures before they happen.</h1>
-<p class="sub">Every logic element measured while the chip runs, so the one running out of margin is found before it fails. AMD and Altera FPGAs.</p></div>
+<h1>Measure every device at speed.</h1>
+<p class="sub">Setup slack on every LUT and carry chain, in-system, at operating frequency. AMD and Altera FPGAs.</p></div>
 <div class="right">{chip}</div><div class="bar"></div></div></body></html>'''
 
 

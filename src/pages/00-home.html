@@ -1,16 +1,16 @@
 <!--meta
-{"path": "/", "doc_title": "Fluid Silicon | FPGA health monitoring and timing measurement", "og_title": "Fluid Silicon: catch FPGA timing failures before they happen", "description": "Fluid Silicon catches FPGA timing failures before they happen: the timing of every logic element measured while the chip runs, the elements running out of margin found, and when each will fail predicted. AMD and Altera, on your site."}
+{"path": "/", "doc_title": "Fluid Silicon | FPGA health monitoring and timing measurement", "og_title": "Fluid Silicon: measure every FPGA at speed", "description": "In-system timing measurement for FPGAs: setup slack measured on every LUT and carry chain at operating frequency, and the paths losing margin flagged before they fail. AMD and Altera devices, deployed on-premises."}
 -->
 <section class="hero on-dark" aria-labelledby="home-h1">
   <div class="wrap">
     <div class="hero-copy">
-      <h1 id="home-h1">Catch timing failures before they happen.</h1>
-      <p class="lead">Intermittent errors no one can reproduce. Boards that fail years early. Chips run at worst-case voltage because their real margin is unknown. Fluid Silicon measures the timing of every logic element while your design runs, and shows which one is running out of margin and how long it has left.</p>
+      <h1 id="home-h1">Measure every device at speed.</h1>
+      <p class="lead">Sign-off assumes the slowest silicon at the worst-case corner. In the field, devices throw intermittent errors no one can reproduce, fail years early, and run at full guardband because their real margin is unknown. Fluid Silicon measures setup slack on every LUT and carry chain, in-system, at operating frequency, and flags the paths losing margin before they fail.</p>
       <div class="btn-row">
         <a class="btn btn--primary" href="/technology/">How it works {{arrow}}</a>
         <a class="btn btn--ghost" href="/assets/docs/fluid-silicon-technical-brief.pdf">Technical brief (PDF)</a>
       </div>
-      <p class="badge-line"><span>AMD and Altera parts</span><span>No RTL changes</span><span>Read-only to start</span><span>Runs on your site</span></p>
+      <p class="badge-line"><span>AMD and Altera devices</span><span>No RTL changes</span><span>Read-only by default</span><span>Deployed on-premises</span></p>
     </div>
     <div class="hero-visual">
       {{hero_stack:home}}
@@ -21,9 +21,9 @@
 <section class="sec sec--raised" aria-labelledby="home-problems">
   <div class="wrap">
     <div class="sec-head">
-      <p class="kicker">Problems in the field</p>
-      <h2 id="home-problems">Timing problems no factory test catches.</h2>
-      <p>They share one cause: no one knows how much timing margin each chip has left, and it changes with heat and age. Monitoring is read-only; tuning and repair are steps you turn on.</p>
+      <p class="kicker">In the field</p>
+      <h2 id="home-problems">Timing failures <span class="nowrap">sign-off</span> never sees.</h2>
+      <p>One cause: sign-off guardbands every device for the slowest silicon, and the real margin of each device is never measured. That margin varies across the die and shrinks with temperature and age. Monitoring is read-only; tuning and repair are separate steps you enable.</p>
     </div>
     {{problem_grid}}
     <p class="mt-28"><a class="arrow-link" href="/solutions/">Explore all solutions</a></p>
@@ -44,32 +44,32 @@
   <div class="wrap">
     <div class="sec-head">
       <p class="kicker">How it works</p>
-      <h2 id="home-how">From one measurement to every decision.</h2>
-      <p>Today a chip is characterized once, at the factory, against the worst chip that could have been made, and then run that way for life. Fluid Silicon adds a small health layer beside your design so each chip measures its own logic, at speed, for as long as it runs.</p>
+      <h2 id="home-how">Measure at speed. Act on the result.</h2>
+      <p>A device is characterized once, against the slowest silicon at the worst-case corner, and runs on that assumption for life. Fluid Silicon adds a lightweight health layer alongside your design that measures setup slack in-system, at operating frequency, for as long as the device runs.</p>
     </div>
     <div class="grid grid-4">
         <div class="feature">
           {{icon:monitor}}
-          <h3>Measured on the chip</h3>
-          <p>Timing slack on individual LUTs, carry blocks and the links between them, while the design computes. A full sweep takes about a second; each link is resolved to under 20 ps.</p>
+          <h3>Measured in-system</h3>
+          <p>Setup slack on individual LUTs, carry chains and the routing between them, while your design runs. A full sweep takes about a second; each link is resolved to under 20 ps.</p>
         </div>
         <div class="feature">
           {{icon:model}}
-          <h3>Modeled per chip</h3>
-          <p>An aging curve fitted to each chip's own temperature history, and a time-to-threshold for every element on it.</p>
+          <h3>Modeled per device</h3>
+          <p>An aging curve fitted to each device's temperature history, with a time-to-threshold for every element on the die.</p>
         </div>
         <div class="feature">
           {{icon:tune}}
-          <h3>Tuned to what it measured</h3>
-          <p>Voltage and frequency set to what each chip can sustain, in windows you schedule, with every change re-measured.</p>
+          <h3>Tuned to measured slack</h3>
+          <p>Vccint and clock set to the margin each device actually has, in maintenance windows you schedule, re-measured after every change.</p>
         </div>
         <div class="feature">
           {{icon:repair}}
           <h3>Repaired only when needed</h3>
-          <p>Nothing in your design moves until an element degrades toward your threshold. Then only that path moves to a healthy resource, through your change process.</p>
+          <p>Nothing in your design moves until an element degrades toward your threshold. Then only that path is re-placed onto healthy resources, through your change process.</p>
         </div>
     </div>
-    <p class="mt-28"><a class="arrow-link" href="/technology/">See how it works</a> <span class="muted">·</span> <a class="arrow-link" href="/technology/devices/">Device support</a></p>
+    <p class="mt-28"><a class="arrow-link" href="/technology/">How the measurement works</a> <span class="muted">·</span> <a class="arrow-link" href="/technology/devices/">Device support</a></p>
   </div>
 </section>
 
@@ -77,8 +77,8 @@
   <div class="wrap">
     <div class="sec-head">
       <p class="kicker">Why now</p>
-      <h2 id="home-why">The gap between the datasheet and the chip keeps widening.</h2>
-      <p>Setting one margin for the worst chip was the right call when nothing in the field could be measured. Three things have changed.</p>
+      <h2 id="home-why">The gap between <span class="nowrap">sign-off</span> and silicon keeps widening.</h2>
+      <p>Guardbanding every device for the slowest silicon made sense when nothing could be measured in the field. Three things have changed.</p>
     </div>
     {{whynow}}
   </div>
@@ -88,7 +88,7 @@
   <div class="wrap">
     <div class="sec-head">
       <p class="kicker">Where it applies</p>
-      <h2 id="home-ind">Wherever chips run for years and a surprise is expensive.</h2>
+      <h2 id="home-ind">Wherever devices run for years and a timing failure is expensive.</h2>
       <p>Each industry reads the same measurement differently: as watts, as uptime, as a maintenance schedule, as evidence.</p>
     </div>
     {{ind_grid}}
@@ -101,12 +101,12 @@
     <div class="stack">
       <p class="kicker">Where this goes</p>
       <h2 id="home-vision">FPGAs are where we start.</h2>
-      <p class="lead">A chip that reports its own condition is useful wherever silicon has to be trusted. FPGAs are programmable, so the health layer can be added to chips already in service, with no new silicon. That makes them the first step, not the last.</p>
+      <p class="lead">A device that measures its own timing belongs wherever silicon has to be trusted. FPGAs are reprogrammable, so the health layer can be added to devices already in service, with no new silicon. That makes them the first step.</p>
     </div>
     <div class="path">
-      <div><span class="n">1</span><div><h3>Today: FPGAs, read-only</h3><p>Per-element measurement on AMD and Altera parts, with evaluations that start on a few of your boards.</p></div></div>
-      <div><span class="n">2</span><div><h3>Next: the full loop on every chip</h3><p>Each chip monitored, modeled, tuned and, when needed, repaired on its own measurement, wherever it runs: on a bench, in a vehicle, in a cabinet or in a data center.</p></div></div>
-      <div><span class="n">3</span><div><h3>After that: beyond FPGAs</h3><p>The same per-element measurement for other chips that have to run for years, so no system fails because a part ran out of margin unnoticed.</p></div></div>
+      <div><span class="n">1</span><div><h3>Today: FPGAs, read-only</h3><p>Per-element measurement on AMD and Altera devices, with evaluations that start on a few of your boards.</p></div></div>
+      <div><span class="n">2</span><div><h3>Next: the full loop on every device</h3><p>Each device monitored, modeled, tuned and, when needed, repaired on its own measurement: on the bench, in a vehicle, in a cabinet or in a data center.</p></div></div>
+      <div><span class="n">3</span><div><h3>After that: beyond FPGAs</h3><p>The same per-element measurement for other silicon that has to run for years, so no system fails because a part ran out of margin unnoticed.</p></div></div>
     </div>
   </div>
 </section>
