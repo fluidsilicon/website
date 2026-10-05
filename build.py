@@ -215,7 +215,7 @@ LIFECYCLE = [
 LOOP4 = [
     ("monitor", "Monitor", "Every logic element swept in about a second while the design runs."),
     ("model", "Model", "An aging curve per card and per element, with a predicted time-to-threshold."),
-    ("tune", "Tune", "Voltage and frequency set to what each chip can sustain, in windows you schedule."),
+    ("tune", "Tune", "Voltage and frequency held within each device's measured margin, in windows you schedule."),
     ("repair", "Repair", "Only when an element degrades toward your threshold: that path moves to a healthy resource, through your change process."),
 ]
 
@@ -889,8 +889,8 @@ def tech_tabs(which):
     panels = [
         ("Monitor", P("Every logic element swept in about a second while the design runs. One metric on every vendor: measured slack as a share of the clock period."), mock_figure("device|One chip: its slack map, its weakest element and that element's history. Illustrative screen.", light=True)),
         ("Model", P("An aging curve per card and per element, fitted to the card's own temperature history, with a predicted time-to-threshold. Outliers are flagged early."), aging_figure("aging-tab", compact=True)),
-        ("Tune", P("Voltage and frequency set to what each chip can sustain, in windows you schedule, coordinated per device, per server or fleet-wide. Every change is re-measured."), mock_figure("tune|A recommended operating point awaiting approval. Illustrative screen.", light=True)),
-        ("Repair", P("Nothing in your design moves until an element degrades toward your threshold. Then only that path is moved to a healthy, faster resource, through your change process, and the card is re-measured within a second."), S.card_illustration("tab-repair")),
+        ("Tune", P("Voltage and frequency held within the margin each device has measured, in windows you schedule, coordinated per device, per board or fleet-wide. Every change is re-measured."), mock_figure("tune|A recommended operating point awaiting approval. Illustrative screen.", light=True)),
+        ("Repair", P("Nothing in your design moves until an element degrades toward your threshold. Then only that path is moved to a healthy resource, through your change process, and the card is re-measured within a second."), S.card_illustration("tab-repair")),
     ]
     return tabs("tabs-field", panels)
 
@@ -1153,7 +1153,7 @@ def head_html(meta):
 <meta property="og:image" content="{SITE_URL}/assets/img/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Fluid Silicon: measure every device at speed.">
+<meta property="og:image:alt" content="Fluid Silicon, the FPGA reliability platform: at advanced nodes, every device is different.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/assets/img/mark.svg" type="image/svg+xml">

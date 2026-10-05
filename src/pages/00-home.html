@@ -1,11 +1,12 @@
 <!--meta
-{"path": "/", "doc_title": "Fluid Silicon | FPGA health monitoring and timing measurement", "og_title": "Fluid Silicon: measure every FPGA at speed", "description": "In-system timing measurement for FPGAs: setup slack measured on every LUT and carry chain at operating frequency, and the paths losing margin flagged before they fail. AMD and Altera devices, deployed on-premises."}
+{"path": "/", "doc_title": "Fluid Silicon | FPGA reliability platform: in-system timing measurement", "og_title": "Fluid Silicon: the reliability platform for FPGAs at advanced nodes", "description": "The FPGA reliability platform: variation and latent defects at advanced nodes force conservative guardbands. Fluid Silicon measures setup slack on every device in-system, at operating frequency, exposes defects before they fail and keeps each device inside its measured margin. AMD and Altera."}
 -->
 <section class="hero on-dark" aria-labelledby="home-h1">
   <div class="wrap">
     <div class="hero-copy">
-      <h1 id="home-h1">Measure every device at speed.</h1>
-      <p class="lead">Sign-off assumes the slowest silicon at the worst-case corner. In the field, devices throw intermittent errors no one can reproduce, fail years early, and run at full guardband because their real margin is unknown. Fluid Silicon measures setup slack on every LUT and carry chain, in-system, at operating frequency, and flags the paths losing margin before they fail.</p>
+      <p class="kicker">FPGA reliability platform</p>
+      <h1 id="home-h1">At advanced nodes, every device is different.</h1>
+      <p class="lead">Variation and latent defects force sign-off to guardband every device for the slowest silicon at the worst-case corner. That conservatism costs performance and energy, and it still misses the defects that fail in the field. Fluid Silicon measures every device at speed, in-system, exposes those defects and keeps each device inside its measured margin.</p>
       <div class="btn-row">
         <a class="btn btn--primary" href="/technology/">How it works {{arrow}}</a>
         <a class="btn btn--ghost" href="/assets/docs/fluid-silicon-technical-brief.pdf">Technical brief (PDF)</a>
@@ -23,7 +24,7 @@
     <div class="sec-head">
       <p class="kicker">In the field</p>
       <h2 id="home-problems">Timing failures <span class="nowrap">sign-off</span> never sees.</h2>
-      <p>One cause: sign-off guardbands every device for the slowest silicon, and the real margin of each device is never measured. That margin varies across the die and shrinks with temperature and age. Monitoring is read-only; tuning and repair are separate steps you enable.</p>
+      <p>One cause: variation and latent defects make each device's real margin different, and nothing measures it after sign-off. That margin varies across the die and shrinks with temperature and age. Monitoring is read-only; tuning and repair are separate steps you enable.</p>
     </div>
     {{problem_grid}}
     <p class="mt-28"><a class="arrow-link" href="/solutions/">Explore all solutions</a></p>
@@ -44,7 +45,7 @@
   <div class="wrap">
     <div class="sec-head">
       <p class="kicker">How it works</p>
-      <h2 id="home-how">Measure at speed. Act on the result.</h2>
+      <h2 id="home-how">Measure every device at speed. Keep it inside its margin.</h2>
       <p>A device is characterized once, against the slowest silicon at the worst-case corner, and runs on that assumption for life. Fluid Silicon adds a lightweight health layer alongside your design that measures setup slack in-system, at operating frequency, for as long as the device runs.</p>
     </div>
     <div class="grid grid-4">
@@ -60,8 +61,8 @@
         </div>
         <div class="feature">
           {{icon:tune}}
-          <h3>Tuned to measured slack</h3>
-          <p>Vccint and clock set to the margin each device actually has, in maintenance windows you schedule, re-measured after every change.</p>
+          <h3>Held within measured margin</h3>
+          <p>Vccint and clock follow the margin each device has measured, never past it, in maintenance windows you schedule, re-measured after every change.</p>
         </div>
         <div class="feature">
           {{icon:repair}}
