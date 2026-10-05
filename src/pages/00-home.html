@@ -43,8 +43,8 @@
         </div>
         <div class="feature">
           {{icon:model}}
-          <h3>Modeled per card</h3>
-          <p>An aging curve fitted to each card's own temperature history, a time-to-threshold per element, and one health metric on every vendor.</p>
+          <h3>Modeled per chip</h3>
+          <p>An aging curve fitted to each chip's own temperature history, and a time-to-threshold for every element on it.</p>
         </div>
         <div class="feature">
           {{icon:tune}}
@@ -104,8 +104,8 @@
       <p class="lead">A chip that reports its own condition is useful wherever silicon has to be trusted. FPGAs are programmable, so the health layer can be added to chips already in service, with no new silicon. That makes them the first step, not the last.</p>
     </div>
     <div class="path">
-      <div><span class="n">1</span><div><h3>Today: FPGA fleets, read-only</h3><p>Per-element measurement on AMD and Altera parts already in production, with evaluations that start on a sample of your cards.</p></div></div>
-      <div><span class="n">2</span><div><h3>Next: the full loop, across industries</h3><p>Monitoring, modeling, tuning and repair on the same measurement, in data centers, at the edge and in the field, with one health metric across vendors and generations.</p></div></div>
+      <div><span class="n">1</span><div><h3>Today: FPGAs, read-only</h3><p>Per-element measurement on AMD and Altera parts, with evaluations that start on a few of your boards.</p></div></div>
+      <div><span class="n">2</span><div><h3>Next: the full loop on every chip</h3><p>Each chip monitored, modeled, tuned and, when needed, repaired on its own measurement, wherever it runs: on a bench, in a vehicle, in a cabinet or in a data center.</p></div></div>
       <div><span class="n">3</span><div><h3>The world we're building</h3><p>Every team sees the true limits of every chip it runs. Hardware you can see is hardware you can trust, and hardware you can trust does more with less.</p></div></div>
     </div>
   </div>
@@ -136,7 +136,7 @@
 <section class="sec" aria-labelledby="home-res">
   <div class="wrap">
     <div class="eyebrow-row"><h2 id="home-res">Go deeper</h2><a class="arrow-link" href="/blog/">Blog and resources</a></div>
-    {{res_grid:brief,margin,readonly}}
+    {{res_grid:brief,margin,aging}}
   </div>
 </section>
 
