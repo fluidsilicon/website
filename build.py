@@ -94,7 +94,7 @@ NAV = [
         ("", [("/blog/", "Blog", "Margins, aging, power and how an evaluation runs."),
               ("/technology/security/", "Security and integration", "Where the health layer sits and its six guarantees."),
               ("/technology/devices/", "Device support", "AMD and Altera families, with status.")]),
-    ], ("feature", "brief")),
+    ], ("/blog/", "All posts")),
     ("mega", "company", "Company", "/company/", [
         ("", [("/company/", "About and team", "Who we are, and where this is going."),
               ("/company/#partners", "Partners", "Vendors, tools and the partner program."),
@@ -186,16 +186,14 @@ _CAP_N = 0
 
 
 def cta_band(title="Measure a device at speed, live.",
-             text="A 30-minute session: in-system slack measurements on a supported AMD or Altera device, and what an evaluation on your boards involves.",
-             brief=True):
-    b = ('<a class="btn btn--ghost" href="/assets/docs/fluid-silicon-technical-brief.pdf">Technical brief (PDF)</a>' if brief else "")
+             text="A 30-minute session: in-system slack measurements on a supported AMD or Altera device, and what an evaluation on your boards involves."):
     global _CTA_N
     _CTA_N += 1
     cid = f"cta-{_CTA_N}"
     return f'''<section class="cta-band on-dark" aria-labelledby="{cid}">
   <div class="wrap">
     <div><h2 id="{cid}">{esc(title)}</h2><p>{esc(text)}</p></div>
-    <div class="btn-row"><a class="btn btn--primary" href="/demo/">Request a demo {ARROW}</a>{b}</div>
+    <div class="btn-row"><a class="btn btn--primary" href="/demo/">Request a demo {ARROW}</a></div>
   </div>
 </section>'''
 
@@ -594,20 +592,13 @@ def ind_grid(current=None, tiles=True, limit=None):
 
 def res_card(key, uid):
     r = C.RESOURCES[key]
-    go = "Download" if r["path"].endswith(".pdf") else "Read"
     return (f'<a class="res-card" href="{r["path"]}" data-type="{esc(r["type"])}">{S.thumb(r["thumb"], uid)}<div class="body"><span class="type">{esc(r["type"])}</span>'
-            f'<h3>{esc(r["title"])}</h3><p>{esc(r["desc"])}</p><span class="go">{go}</span></div></a>')
+            f'<h3>{esc(r["title"])}</h3><p>{esc(r["desc"])}</p><span class="go">Read</span></div></a>')
 
 
 def res_grid(keys, uid="res"):
     cls = "res-grid res-grid--1" if len(keys) == 1 else "res-grid"
     return f'<div class="{cls}">' + "".join(res_card(k, f"{uid}-{n}") for n, k in enumerate(keys)) + '</div>'
-
-
-def res_feature(key="brief", uid="feat"):
-    r = C.RESOURCES[key]
-    return (f'<div class="res-feature">{S.thumb(r["thumb"], uid)}<div class="stack"><span class="type">{esc(r["type"])}</span><h2>{esc(r["title"])}</h2>'
-            f'<p>{esc(r["desc"])}</p><div class="btn-row"><a class="btn btn--primary" href="{r["path"]}">{"Download the brief (PDF)" if key == "brief" else "Read it"} {ARROW}</a></div></div></div>')
 
 
 def news_cards(n=3):
@@ -702,7 +693,7 @@ def solution_page(sdef):
       <p class="kicker">Solution</p>
       <h1 id="sol-h1">{esc(sdef["name"])}</h1>
       <p class="lead">{esc(sdef["lead"])}</p>
-      <div class="btn-row"><a class="btn btn--primary" href="/demo/">Request a demo {ARROW}</a><a class="btn btn--ghost" href="/assets/docs/fluid-silicon-technical-brief.pdf">Technical brief (PDF)</a></div>
+      <div class="btn-row"><a class="btn btn--primary" href="/demo/">Request a demo {ARROW}</a></div>
     </div>
     <div class="hero-visual">{S.card_illustration(f"hero-{slug}")}</div>
   </div>
@@ -788,7 +779,7 @@ def industry_page(idef):
       <p class="kicker">Industry</p>
       <h1 id="ind-h1">{esc(idef["name"])}</h1>
       <p class="lead">{esc(idef["lead"])}</p>
-      <div class="btn-row"><a class="btn btn--primary" href="/demo/">Request a demo {ARROW}</a><a class="btn btn--ghost" href="/assets/docs/fluid-silicon-technical-brief.pdf">Technical brief (PDF)</a></div>
+      <div class="btn-row"><a class="btn btn--primary" href="/demo/">Request a demo {ARROW}</a></div>
       <div class="hero-stats">{stats}</div>
     </div>
   </div>
@@ -906,8 +897,6 @@ def search_index(pages):
         nav = meta.get("nav", meta["route"])
         kind = "Industry" if meta["path"].startswith("/industries/") else "Blog" if meta["path"].startswith("/blog/") and meta["path"] != "/blog/" else kinds.get(nav, "Page")
         idx.append({"t": html.unescape(title), "d": meta["description"], "u": meta["path"], "p": meta["route"], "k": kind})
-    r = C.RESOURCES["brief"]
-    idx.append({"t": r["title"], "d": r["desc"], "u": r["path"], "p": "brief", "k": "Technical brief"})
     return idx
 
 COMPONENTS = {
@@ -916,7 +905,7 @@ COMPONENTS = {
     "device_table": lambda a: device_table(a or "devices"),
     "device_summary": lambda a: device_table(a or "devsum", filters=False, compact=True),
     "cta": lambda a: cta_band(),
-    "cta_careers": lambda a: cta_band("Help build hardware people can trust.", "FPGA and systems engineers, and interns, in Philadelphia. We reply to every application within five business days.", brief=False).replace('href="/demo/">Request a demo', 'href="/careers/">See open roles'),
+    "cta_careers": lambda a: cta_band("Help build hardware people can trust.", "FPGA and systems engineers, and interns, in Philadelphia. We reply to every application within five business days.").replace('href="/demo/">Request a demo', 'href="/careers/">See open roles'),
     "lifecycle": lambda a: lifecycle(),
     "mock": lambda a: mock_figure(a),
     "mock_light": lambda a: mock_figure(a, light=True),
@@ -941,7 +930,6 @@ COMPONENTS = {
     "ind_grid": lambda a: ind_grid(tiles=True),
     "ind_icons": lambda a: ind_grid(current=a or None, tiles=False),
     "res_grid": lambda a: res_grid([k.strip() for k in a.split(",")], uid="res-" + a.replace(",", "-")[:24]),
-    "res_feature": lambda a: res_feature(a or "brief", uid="feat-" + (a or "brief")),
     "res_all": lambda a: res_grid(list(C.RESOURCES), uid="res-all"),
     "news_cards": lambda a: news_cards(int(a) if a else 3),
     "news_list": lambda a: news_list(a.split(",") if a else None),
@@ -1023,10 +1011,7 @@ def nav_html(active):
                     lis += f'<li><a href="{h}"{cur_a}><span class="t">{esc(t)}</span><span class="d">{esc(d)}</span></a></li>'
                 hd = f'<p class="mega-h">{esc(heading)}</p>' if heading else ""
                 col_html.append(f'<div class="mega-col">{hd}<ul>{lis}</ul></div>')
-            if foot and foot[0] == "feature":
-                r = C.RESOURCES[foot[1]]
-                foot_html = f'<a class="mega-feature" href="{r["path"]}">{S.thumb(r["thumb"], "nav-" + foot[1])}<span><span class="t">{esc(r["title"])}</span><br><span class="d">{esc(r["type"])} · PDF</span></span></a>'
-            elif foot:
+            if foot:
                 foot_html = f'<a class="mega-foot" href="{foot[0]}">{esc(foot[1])}</a>'
             else:
                 foot_html = ""
@@ -1075,7 +1060,7 @@ def footer_html():
       <div class="foot-col"><h2>Technology</h2><ul>
         <li><a href="/technology/">Overview</a></li><li><a href="/technology/security/">Security and integration</a></li>
         <li><a href="/technology/devices/">Device support</a></li>
-        <li><a href="/blog/">Blog</a></li><li><a href="/assets/docs/fluid-silicon-technical-brief.pdf">Technical brief (PDF)</a></li></ul></div>
+        <li><a href="/blog/">Blog</a></li></ul></div>
       <div class="foot-col"><h2>Company</h2><ul>
         <li><a href="/company/">About and team</a></li><li><a href="/company/#partners">Partners</a></li><li><a href="/company/news/">News and press</a></li><li><a href="/company/events/">Events</a></li>
         <li><a href="/careers/">Careers</a></li><li><a href="/contact/">Contact</a></li><li><a href="/demo/">Request a demo</a></li></ul></div>
@@ -1264,8 +1249,6 @@ def build_site(pages):
 def to_preview_links(s):
     def href(m):
         attr, url = m.group(1), m.group(2)
-        if url == "/assets/docs/fluid-silicon-technical-brief.pdf":
-            return f'{attr}="#brief"'          # the viewer can't open files, so the preview shows the pages instead
         if url.startswith("/assets/") or url in ("/favicon.ico", "/site.webmanifest"):
             return f'{attr}="{url[1:]}"'
         if url.startswith("/") and not url.startswith("//"):
@@ -1283,52 +1266,17 @@ def to_preview_links(s):
     return re.sub(r'\b(href|src)="([^"]+)"', href, s)
 
 
-BRIEF_PAGES = ["Cover: run every FPGA at its measured limits, with the six key figures",
-               "01, the problem: why margins are set for a statistically rare chip, with the margin schematic and Azure context",
-               "02, the platform: four capabilities and the health loop",
-               "03, lifecycle and adoption: the health metric, specifications and the four adoption steps",
-               "04, security and integration: the integration diagram and six guarantees",
-               "05, devices and next steps: device support, markets and contact"]
-
-
-def brief_pages(out):
-    """Page images of the technical brief for the preview (the artifact viewer can't open a PDF). Needs pdftoppm; skipped without it."""
-    pdf = os.path.join(SRC, "assets", "docs", "fluid-silicon-technical-brief.pdf")
-    exe = shutil.which("pdftoppm")
-    if not (exe and os.path.exists(pdf)):
-        return []
-    d = os.path.join(out, "assets", "brief")
-    os.makedirs(d, exist_ok=True)
-    import subprocess
-    subprocess.run([exe, "-r", "110", "-png", pdf, os.path.join(d, "p")], check=True)
-    return sorted(f for f in os.listdir(d) if f.endswith(".png"))
-
-
-def brief_view(imgs):
-    figs = "".join(f'<figure class="brief-page"><img src="assets/brief/{f}" width="935" height="1210" loading="lazy" alt="Technical brief, page {i+1} of {len(imgs)}. {esc(BRIEF_PAGES[i] if i < len(BRIEF_PAGES) else "")}"><figcaption>Page {i+1}</figcaption></figure>'
-                   for i, f in enumerate(imgs))
-    body = f'''<section class="page-hero" aria-labelledby="brief-h1"><div class="wrap">
-  <nav class="crumbs" aria-label="Breadcrumb"><a href="#home">Home</a><span aria-hidden="true">/</span><a href="#platform">Platform</a><span aria-hidden="true">/</span><span>Technical brief</span></nav>
-  <h1 id="brief-h1">Technical brief</h1>
-  <p class="lead">Six pages for engineers and buyers: the problem, the platform, adoption, security and integration, and device support. On fluidsilicon.com this link opens the PDF. In this preview the pages are shown as images.</p>
-</div></section>
-<section class="sec" aria-label="Brief pages"><div class="wrap"><div class="brief-pages">{figs or '<p class="muted">Run tools_assets.py to generate the brief, then rebuild.</p>'}</div></div></section>'''
-    return f'<div data-route="brief" data-title="Technical brief | Fluid Silicon" data-nav="platform" id="view-brief">\n{body}\n</div>'
-
-
 def build_preview(pages):
     out = os.path.join(DIST, "preview")
     if os.path.exists(out):
         shutil.rmtree(out)
     shutil.copytree(os.path.join(SRC, "assets"), os.path.join(out, "assets"))
-    brief_imgs = brief_pages(out)
     views = []
     for meta, body in pages:
         tok = meta["route"]
         active = meta.get("nav", tok)
         act = ' class="is-active"' if tok == "home" else ""
         views.append(f'<div data-route="{tok}" data-title="{esc(meta["doc_title"])}" data-nav="{active}" id="view-{tok}"{act}>\n{body}\n</div>')
-    views.append(brief_view(brief_imgs))
     doc = f'''<title>Fluid Silicon</title>
 <meta name="description" content="Preview of the Fluid Silicon website.">
 <link rel="stylesheet" href="assets/css/site.css">
@@ -1360,7 +1308,7 @@ def build_standalone(prev):
     for name in ("config.js", "site.js"):
         js = read(os.path.join(prev, "assets", "js", name)).replace("</script", "<\\/script")
         doc = doc.replace(f'<script src="assets/js/{name}"></script>', "<script>\n" + js + "\n</script>")
-    doc = re.sub(r'src="(assets/(?:brief|img)/[^"]+\.(png|jpg))"', lambda m: 'src="' + data_uri(os.path.join(prev, m.group(1)), "image/png" if m.group(2) == "png" else "image/jpeg") + '"', doc)
+    doc = re.sub(r'src="(assets/img/[^"]+\.(png|jpg))"', lambda m: 'src="' + data_uri(os.path.join(prev, m.group(1)), "image/png" if m.group(2) == "png" else "image/jpeg") + '"', doc)
     head, _, body = doc.partition('<a class="skip"')
     out = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
            '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'

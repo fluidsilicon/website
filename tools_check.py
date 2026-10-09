@@ -8,7 +8,7 @@
 
 Exits 1 if 1 or 2 find anything. The disclosure list itself is private; see load_guard_terms().
 """
-import html, os, re, subprocess, sys
+import html, os, re, sys
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(ROOT, "dist", "site")
@@ -89,17 +89,6 @@ def main():
                 notes.append(f"{rel}: missing {need}")
         for key in re.findall(r'data-fill="([^"]+)"', s):
             fills.append(f"{rel}: {key}")
-    # the technical brief goes through the same guard
-    pdf = os.path.join(SITE, "assets", "docs", "fluid-silicon-technical-brief.pdf")
-    if os.path.exists(pdf):
-        try:
-            t = subprocess.run(["pdftotext", "-layout", pdf, "-"], capture_output=True, text=True, check=True).stdout
-            t = re.sub(r"\s+", " ", t)
-            for pat in IP_TERMS + PEOPLE_TERMS:
-                for m in re.finditer(pat, t, re.I):
-                    problems.append(f"technical brief PDF: '{m.group(0)}'")
-        except (OSError, subprocess.CalledProcessError):
-            notes.append("pdftotext not available: technical brief not scanned")
     print(f"checked {len(pages)} HTML files")
     for n in notes:
         print("note:", n)

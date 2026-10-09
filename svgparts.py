@@ -563,19 +563,12 @@ def industry_art(kind, uid):
 
 # ---------------------------------------------------------------- resource thumbnails (16:10, light, an icon in gold)
 def thumb(kind, uid):
-    icon_for = {"brief": "doc", "margin": "variation", "aging": "aging", "fleet": "rack", "power": "power", "steps": "check", "shield": "shield", "chip": "chip"}
+    icon_for = {"margin": "variation", "aging": "aging", "fleet": "rack", "power": "power", "steps": "check", "shield": "shield", "chip": "chip"}
     name = icon_for.get(kind, "doc")
     out = [f'<svg class="thumb" viewBox="0 0 400 250" aria-hidden="true" focusable="false">',
            f'<defs><linearGradient id="{uid}-t" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6f4ef"/><stop offset="1" stop-color="#f3ecd6"/></linearGradient></defs>',
            f'<rect width="400" height="250" fill="url(#{uid}-t)"/>']
-    if kind == "brief":
-        out.append('<rect x="130" y="40" width="140" height="180" rx="6" fill="#fff" stroke="#e5e1d8"/>'
-                   '<rect x="150" y="66" width="80" height="8" rx="2" fill="#15130f"/><rect x="150" y="84" width="100" height="5" rx="2" fill="#cfc9bc"/>'
-                   '<rect x="150" y="96" width="90" height="5" rx="2" fill="#cfc9bc"/><rect x="150" y="108" width="100" height="5" rx="2" fill="#cfc9bc"/>'
-                   '<rect x="150" y="132" width="100" height="40" rx="3" fill="#f3ecd6"/><rect x="150" y="184" width="60" height="5" rx="2" fill="#cfc9bc"/>'
-                   '<rect x="130" y="40" width="140" height="6" fill="#f06024"/>')
-    else:
-        out.append(f'<g transform="translate(152 77) scale(4)" fill="none" stroke="#a67c00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{ICONS[name]}</g>')
+    out.append(f'<g transform="translate(152 77) scale(4)" fill="none" stroke="#a67c00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{ICONS[name]}</g>')
     rng = random.Random(len(kind))
     for i in range(6):
         x, y = rng.uniform(20, 380), rng.uniform(20, 230)

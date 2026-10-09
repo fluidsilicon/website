@@ -8,7 +8,7 @@ python3 tools_check.py                            # links, disclosure guard, pag
 python3 -m http.server 8000 --directory dist/site # look at it on http://localhost:8000
 ```
 
-Python 3.9 or later is all the build needs. To show the site to someone before it's live, send `dist/fluid-silicon-preview.html`: it opens in any browser, offline, with every page and the technical brief shown as page images. Its forms say that nothing was sent.
+Python 3.9 or later is all the build needs. To show the site to someone before it's live, send `dist/fluid-silicon-preview.html`: it opens in any browser, offline, with every page. Its forms say that nothing was sent.
 
 ## Publish
 
@@ -35,7 +35,7 @@ Old addresses still work: `/team/`, `/partners/`, `/resources/`, `/company/press
 2. **Legal entity.** Set `LEGAL_ENTITY` in `build.py` (just above `footer_html()`) to the registered name, for example "Fluid Silicon, Inc."
 3. **Forms.** Deploy `backend/apps-script/Code.gs` and set both endpoints in `src/assets/js/config.js`. See `backend/apps-script/README.md`. The demo and contact forms share `demoEndpoint`. Until then, applications go to your existing script, and the demo and contact forms offer email plus a copy button.
 4. **Numbers and claims.** Each figure is defined once, in `FACTS` and `DEVICES` at the top of `build.py`, and every page reads it from there. Have engineering confirm them: 30–54% margin, < 20 ps, about 1 s per sweep, < 1% LUTs, < 5% flip-flops, < 2% delay, the device table and the "In development" families.
-5. **Citations.** The Rydberg et al. (FPGA 2026) quote on the home page and in the brief comes from your deck. Check it against the paper before launch (the publisher's page couldn't be reached from here).
+5. **Citations.** The Rydberg et al. (FPGA 2026) quote on the home page comes from your deck. Check it against the paper before launch (the publisher's page couldn't be reached from here).
 6. **Reply times.** The site promises replies within `replyDays` (demo, now 2 business days) and the apply-page placeholder. Set numbers the team can keep.
 
 ## Site structure
@@ -47,7 +47,7 @@ The structure follows the reference the team chose (a solutions company site): a
 | Solutions, by topic | Power & Performance · Reliability, Availability, Serviceability · Failure Prediction & Diagnostics · Card Qualification · Fleet Deployment & Operations · Lifecycle & Second Life (`/solutions/<slug>/`, plus `/solutions/`) |
 | Solutions, by industry | One page, `/industries/`, with an anchored section per industry (`/industries/#<slug>`); the old per-industry addresses redirect there |
 | Technology | `/technology/` (monitoring, integration, characterization, in-field, FAQ), `/technology/security/`, `/technology/devices/` |
-| Resources | `/blog/` (technical brief, posts, explainers); `/resources/` redirects there |
+| Resources | `/blog/` (posts and explainers); `/resources/` redirects there |
 | Company | `/company/` (about, team, where we're headed, partners at `#partners`), `/company/news/` (coverage, announcements and the press kit), `/company/events/`, `/contact/` |
 | Careers | `/careers/` (top-level menu item) and `/jobs/` (all open roles on one page, anchored; old job addresses redirect) |
 | Forms | `/demo/`, `/contact/`, `/apply/` |
@@ -78,11 +78,9 @@ The industry tiles and hero bands are drawn scenes (`industry_art()` in `svgpart
 
 To add a page, add a file in `src/pages/`, add its path to `ROUTES` (and `NAV` if it belongs in the menu), and rebuild. The sitemap updates itself.
 
-## Regenerate images and the brief
+## Regenerate images
 
-`python3 tools_assets.py` rebuilds the favicon, app icons, the social share image (`og-image.png`, 1200×630) and the technical brief PDF. `python3 tools_assets.py og` rebuilds only the share image. It needs Playwright with Chromium and Pillow (`pip install playwright pillow`, then `playwright install chromium`).
-
-The brief has its own frozen sources, `brief_parts.py` and `src/assets/css/brief.css`, so redesigning the site does not change the PDF. Run the full command after changing the numbers or the device table, so the PDF stays in step with the site.
+`python3 tools_assets.py` rebuilds the favicon, the app icons and the social share image (`og-image.png`, 1200×630). `python3 tools_assets.py og` rebuilds only the share image. It needs Playwright with Chromium and Pillow (`pip install playwright pillow`, then `playwright install chromium`).
 
 `tools_logo.py` rebuilds the logo SVGs. The wordmark is outlined from Carlito Bold, which is metric-compatible with the typeface in the original logo, and needs `fontTools`. Colors are parameters, so other colorways of the IC-package mark are one call each.
 
@@ -90,7 +88,7 @@ The brief has its own frozen sources, `brief_parts.py` and `src/assets/css/brief
 
 The site says what the platform measures, what it changes, how it fits a production system, and what it costs in area, delay and downtime. It doesn't say how the sensing works. Sensor architecture, deployment mechanics and calibration are shared with evaluation partners under NDA, and the site says exactly that where someone would ask.
 
-`tools_check.py` guards this before every publish. It fails if page text or the technical brief uses a term from your disclosure list, or names a person or personal role. The site speaks as a company. The disclosure list itself names what must stay private, so it is never stored in this repository. It was delivered separately as `fluid-silicon-guard-terms.txt`:
+`tools_check.py` guards this before every publish. It fails if page text uses a term from your disclosure list, or names a person or personal role. The site speaks as a company. The disclosure list itself names what must stay private, so it is never stored in this repository. It was delivered separately as `fluid-silicon-guard-terms.txt`:
 
 - **In GitHub Actions:** add a repository secret named `FS_GUARD_TERMS` and paste the file's lines into it. The workflow passes it to the check.
 - **On your computer:** save the file as `.guard-terms` next to `tools_check.py`. `.gitignore` keeps it out of commits made with git. Don't upload it through the GitHub website, which ignores `.gitignore`.
@@ -111,12 +109,11 @@ Without the list the check still runs the link and people checks, and says the d
 build.py            site builder (pages, shared blocks, templates, search index, sitemap, redirects, preview)
 content.py          solutions, industries, resources, news, careers content
 svgparts.py         icons, card illustration, industry scenes, thumbnails and charts, drawn at build time
-brief_parts.py      frozen diagrams for the technical brief (with src/assets/css/brief.css)
 tools_check.py      pre-publish checks
-tools_assets.py     icons, share image, technical brief PDF
+tools_assets.py     icons, share image
 tools_logo.py       logo SVGs
 src/pages/          page sources
-src/assets/         css, js, fonts (self-hosted Red Hat), images, the brief
+src/assets/         css, js, fonts (self-hosted Red Hat), images
 src/CNAME …         files copied to the site root as-is
 backend/apps-script Google Apps Script for the forms, with offline tests
 dist/site/          the built site: this is what gets published

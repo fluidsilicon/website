@@ -6,11 +6,8 @@ Copy rules: outcomes and guarantees, never mechanism; the company speaks, no peo
 comes from build.FACTS or a cited source; say each thing once.
 """
 
-# ------------------------------------------------------------------ resources (brief, explainers, posts)
+# ------------------------------------------------------------------ resources (explainers, posts)
 RESOURCES = {
-    "brief": {"type": "Technical brief", "title": "Fluid Silicon technical brief", "path": "/assets/docs/fluid-silicon-technical-brief.pdf",
-              "desc": "Six pages: the problem, the platform, adoption, security and integration, device support.",
-              "thumb": "brief"},
     "margin": {"type": "Blog", "title": "The FPGA margin problem", "path": "/blog/the-fpga-margin-problem/",
                "desc": "Why timing models carry 30–54% margin for the worst chip in the population, why that was the right call, and what per-chip measurement changes.", "thumb": "margin"},
     "aging": {"type": "Blog", "title": "Aging is measurable, in the field", "path": "/blog/aging-is-measurable/",
@@ -29,9 +26,6 @@ RESOURCES = {
 
 # ------------------------------------------------------------------ news and company updates
 NEWS = [
-    {"date": "2026-09-24", "label": "September 2026", "title": "Fluid Silicon publishes its technical brief",
-     "excerpt": "Six pages on the problem, the platform, adoption, security and integration, and device support.",
-     "path": "/assets/docs/fluid-silicon-technical-brief.pdf", "source": "Fluid Silicon", "kind": "update"},
     {"date": "2026-05-05", "label": "May 2026", "title": "Penn Today: a way for computer chips to run more efficiently",
      "excerpt": "The University of Pennsylvania on the research behind Fluid Silicon and the President's Sustainability Prize awarded to Nhlanhla Mavuso for the project.",
      "path": "https://penntoday.upenn.edu/news/penn-student-develops-way-computer-chips-run-more-efficiently", "source": "Penn Today", "kind": "press"},
@@ -89,7 +83,7 @@ SOLUTIONS = [
              "sub": ("Serviceability without a truck roll", "A card that would have been replaced is repaired in place and kept in service, with the measurements to show it is healthy."),
              "cta": ("How the platform works", "/technology/")},
         ],
-        "resources": ["aging", "generations", "brief"],
+        "resources": ["aging", "generations", "readonly"],
         "faq": [
             ("What counts as a failure here?", "A logic element whose measured slack falls below the threshold you set. Fluid Silicon addresses timing variation and wear-out; it complements radiation mitigation and other fault-tolerance measures rather than replacing them."),
             ("Do we need downtime to monitor?", "No. The design keeps computing for the whole measurement, and a full sweep of every logic element takes about a second."),
@@ -146,9 +140,9 @@ SOLUTIONS = [
                          "One vendor-neutral format for your team and your suppliers."],
              "visual": "illus:illus-fpd",
              "sub": ("Feedback to the silicon vendor", "A card returned with a measured history is a different conversation from a card returned with a symptom."),
-             "cta": ("Technical brief (PDF)", "/assets/docs/fluid-silicon-technical-brief.pdf")},
+             "cta": ("Card qualification", "/solutions/card-qualification/")},
         ],
-        "resources": ["aging", "margin", "brief"],
+        "resources": ["aging", "margin", "readonly"],
         "faq": [
             ("What kinds of failure does this predict?", "Timing failures from variation and wear-out: logic that has slowed past its margin. It does not predict mechanical, power-supply or radiation events; it complements the measures you have for those."),
             ("How is an error attributed?", "Every logic element has a measured slack history, so an error is checked against the elements that were weakest at the time. The result is evidence, not inference."),
@@ -205,7 +199,7 @@ SOLUTIONS = [
              "sub": ("Characterization brackets service", "Once on the way in, continuously in production, once on the way out."),
              "cta": ("Lifecycle and second life", "/solutions/lifecycle-second-life/")},
         ],
-        "resources": ["margin", "readonly", "brief"],
+        "resources": ["margin", "readonly", "devices"],
         "faq": [
             ("Is characterization destructive or slow?", "Neither. A full sweep takes about a second at operating speed. Nothing is written to your design and no operating point changes."),
             ("Do we need a special test rig?", "No. Characterization runs on the card in staging, with the same health layer used in production."),
@@ -260,7 +254,7 @@ SOLUTIONS = [
                          "Sustainability reporting from measured extension, not estimates."],
              "visual": "margin_half:margin-lc",
              "sub": ("The energy behind margin", "Running every chip as if it were the worst one costs energy on every card, every year. Measurement is where the sustainability case starts."),
-             "cta": ("Technical brief (PDF)", "/assets/docs/fluid-silicon-technical-brief.pdf")},
+             "cta": ("What a point of card power is worth", "/blog/what-a-point-of-power-is-worth/")},
         ],
         "resources": ["aging", "generations", "power"],
         "faq": [
@@ -302,7 +296,7 @@ SOLUTIONS = [
                          "Monitoring continues after every change."],
              "visual": "margin_half:margin-pp",
              "sub": ("Guardrails", "The clock moves only inside measured margin, and only by the amount that leaves your specified slack in place. A device aging toward its threshold is brought down before it reaches it."),
-             "cta": ("Technical brief (PDF)", "/assets/docs/fluid-silicon-technical-brief.pdf")},
+             "cta": ("Read the aging explainer", "/blog/aging-is-measurable/")},
             {"id": "signoff", "kicker": "Per-Device Sign-off", "title": "One margin per device.",
              "bullets": ["Each device's path-delay distribution, measured link by link.",
                          "Sign-off margin: measurement error plus drift, with each link resolved to under 20 ps.",
@@ -320,7 +314,7 @@ SOLUTIONS = [
              "sub": ("Read-only first", "Monitoring and modeling never change an operating point. Voltage and frequency scaling are separate steps enabled by policy, and you can stop at any step."),
              "cta": ("How adoption works", "/blog/read-only-first/")},
         ],
-        "resources": ["power", "margin", "brief"],
+        "resources": ["power", "margin", "readonly"],
         "faq": [
             ("Is this overclocking?", "No. The goal is reliability. Every device is kept inside the timing margin measured on that device, with your specified slack in place, and the operating point is pulled back as it ages. Energy and performance are what the worst-case guardband no longer has to hold back."),
             ("How much power can we save?", "It depends on the margin each device carries today, which we measure before recommending anything. The worked example shows the arithmetic; an evaluation on a few of your boards shows your number."),
@@ -407,7 +401,7 @@ INDUSTRIES = [
                     ("doc", "Feedback to the silicon vendor", "Measured evidence for yield, warranty and supply conversations.")],
         "modules": ["card-qualification", "power-performance", "reliability-availability-serviceability", "failure-prediction-diagnostics", "lifecycle-second-life"],
         "quotes": [],
-        "resources": ["margin", "readonly", "brief"],
+        "resources": ["margin", "readonly", "devices"],
     },
     {
         "slug": "aerospace-defense", "name": "Aerospace & Defense", "icon": "satellite", "art": "satellite",
@@ -420,7 +414,7 @@ INDUSTRIES = [
                     ("shield", "Clear about scope", "Complements radiation mitigation such as scrubbing and redundancy; does not replace it. Tuning and repair only where configuration control allows.")],
         "modules": ["card-qualification", "reliability-availability-serviceability", "failure-prediction-diagnostics", "lifecycle-second-life", "power-performance"],
         "quotes": [],
-        "resources": ["aging", "security", "brief"],
+        "resources": ["aging", "security", "readonly"],
     },
     {
         "slug": "telecommunications", "name": "Telecommunications", "icon": "tower", "art": "tower",
@@ -433,7 +427,7 @@ INDUSTRIES = [
                     ("layers", "Multi-generation fleets", "One health metric across every vendor and board generation deployed.")],
         "modules": ["reliability-availability-serviceability", "lifecycle-second-life", "power-performance", "failure-prediction-diagnostics", "fleet-operations"],
         "quotes": [],
-        "resources": ["aging", "generations", "brief"],
+        "resources": ["aging", "generations", "readonly"],
     },
     {
         "slug": "test-measurement", "name": "Test & Measurement", "icon": "thermo", "art": "bench",
@@ -446,7 +440,7 @@ INDUSTRIES = [
                     ("doc", "Evidence for support", "A measured record that shortens the path from a customer report to a cause.")],
         "modules": ["failure-prediction-diagnostics", "reliability-availability-serviceability", "card-qualification", "lifecycle-second-life", "power-performance"],
         "quotes": [],
-        "resources": ["aging", "margin", "brief"],
+        "resources": ["aging", "margin", "readonly"],
     },
     {
         "slug": "ai-hpc", "name": "AI / HPC", "icon": "bolt", "art": "accelerators",
@@ -459,7 +453,7 @@ INDUSTRIES = [
                     ("rack", "Cluster-wide view", "One health metric across every card, vendor and generation.")],
         "modules": ["power-performance", "reliability-availability-serviceability", "failure-prediction-diagnostics", "fleet-operations", "card-qualification"],
         "quotes": ["fpga26"],
-        "resources": ["power", "aging", "brief"],
+        "resources": ["power", "aging", "readonly"],
     },
     {
         "slug": "data-center-cloud", "name": "Data Center & Cloud", "icon": "rack", "art": "racks",
@@ -472,7 +466,7 @@ INDUSTRIES = [
                     ("doc", "Vendor feedback", "Per-element evidence for returns, warranty and supply decisions.")],
         "modules": ["reliability-availability-serviceability", "power-performance", "card-qualification", "fleet-operations", "lifecycle-second-life"],
         "quotes": ["fpga26", "nsdi"],
-        "resources": ["generations", "power", "brief"],
+        "resources": ["generations", "power", "readonly"],
     },
 ]
 
