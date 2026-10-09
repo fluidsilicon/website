@@ -1153,7 +1153,7 @@ def head_html(meta):
 <meta property="og:image" content="{SITE_URL}/assets/img/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Fluid Silicon, the FPGA reliability platform: at advanced nodes, every device is different.">
+<meta property="og:image:alt" content="Fluid Silicon, a customizable platform for FPGA adaptation and resilience: at advanced nodes, every device is different.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/assets/img/mark.svg" type="image/svg+xml">
