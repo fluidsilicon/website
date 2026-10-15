@@ -535,7 +535,7 @@ TEAM = [
      "links": [("scholar", "https://scholar.google.com/citations?user=nintPk8AAAAJ"), ("penn", "https://directory.engineering.upenn.edu/andre-dehon/")]},
     {"slug": "victor-kogo", "name": "Victor Kogo", "role": "Head of Business Development",
      "bio": "Victor works with the founders on Fluid Silicon's business strategy, its engagement with customers, partners and funders, and the financial analysis behind those decisions. He studied economics at the Wharton School and spent two summers at Boston Consulting Group before joining.",
-     "creds": ["BS Economics, Wharton, Penn 2026", "Boston Consulting Group, summer associate"],
+     "creds": ["BS Economics, Wharton, Penn 2026", "Boston Consulting Group, Summer Associate"],
      "links": [("linkedin", "https://www.linkedin.com/in/victor-kogo-623b991a4/")]},
 ]
 
