@@ -534,7 +534,7 @@ TEAM = [
      "creds": ["SB, SM, PhD, MIT", "ACM Fellow", "IEEE Fellow", "NAI Fellow", "10 papers in the TCFPGA Hall of Fame", "Chair, ACM SIGDA TC on FPGAs"],
      "links": [("scholar", "https://scholar.google.com/citations?user=nintPk8AAAAJ"), ("penn", "https://directory.engineering.upenn.edu/andre-dehon/")]},
     {"slug": "victor-kogo", "name": "Victor Kogo", "role": "Head of Business Development",
-     "bio": "Victor brings a background in economics, finance and strategy to the company's business development. He works with the founders on business strategy, on engaging customers, partners and funders, and on the financial analysis behind those decisions. He studied economics at the Wharton School, with concentrations in Finance and Management, and spent two summers at Boston Consulting Group before joining Fluid Silicon.",
+     "bio": "Victor works with the founders on Fluid Silicon's business strategy, its engagement with customers, partners and funders, and the financial analysis behind those decisions. He studied economics at the Wharton School and spent two summers at Boston Consulting Group before joining.",
      "creds": ["BS Economics, Wharton, Penn 2026", "Boston Consulting Group, summer associate"],
      "links": [("linkedin", "https://www.linkedin.com/in/victor-kogo-623b991a4/")]},
 ]
